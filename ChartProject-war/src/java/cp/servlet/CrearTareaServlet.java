@@ -5,8 +5,14 @@
  */
 package cp.servlet;
 
+import cp.ejb.TareaFacade;
+import cp.entity.Tarea;
+import cp.entity.TareaPK;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.math.BigInteger;
+import javax.ejb.EJB;
+import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -18,7 +24,10 @@ import javax.servlet.http.HttpServletResponse;
  * @author rocio
  */
 @WebServlet(name = "ServletPrueba", urlPatterns = {"/ServletPrueba"})
-public class ServletPrueba extends HttpServlet {
+public class CrearTareaServlet extends HttpServlet {
+
+    @EJB
+    TareaFacade tareaFacade;
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -31,19 +40,16 @@ public class ServletPrueba extends HttpServlet {
      */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        response.setContentType("text/html;charset=UTF-8");
-        try (PrintWriter out = response.getWriter()) {
-            /* TODO output your page here. You may use following sample code. */
-            out.println("<!DOCTYPE html>");
-            out.println("<html>");
-            out.println("<head>");
-            out.println("<title>Servlet ServletPrueba</title>");            
-            out.println("</head>");
-            out.println("<body>");
-            out.println("<h1>Servlet ServletPrueba at " + request.getContextPath() + "</h1>");
-            out.println("</body>");
-            out.println("</html>");
+        String idTarea = request.getParameter("idTarea");
+        String idProyecto = request.getParameter("idProyecto");
+        if (idTarea != null) {
+            Tarea tarea = this.tareaFacade.find(new TareaPK(new BigInteger(idTarea), new BigInteger(idProyecto)));
+            request.setAttribute("tarea", tarea);
         }
+
+        RequestDispatcher rd;
+        rd = this.getServletContext().getRequestDispatcher("/edicionCliente.jsp");
+        rd.forward(request, response);
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
