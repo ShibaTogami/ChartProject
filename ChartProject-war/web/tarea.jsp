@@ -27,7 +27,7 @@
         <h2>Timeline de <%= tarea.getNombre()%></h2></br>
         <% for(Comentario c : listaComentarios){%>
             <%= c.getTexto() %></br>
-            ------------------------------------------------------------------</br>
+            <hr/>
         <% } %>
         
         <button><a href="CrearTareaServlet?idTarea=<%=tarea.getTareaPK().getIdTarea()%>&idProyecto=<%=tarea.getTareaPK().getIdProyecto()%>">Editar Tarea</a></button>

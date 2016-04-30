@@ -43,8 +43,39 @@
             Nombre: <input name="nombre" value="<%=nombre%>"/></br>
             Fecha de inicio: <input name="fechaInicio" value="<%=fechaInicio%>"/></br>
             Descripción: <textarea name="descripcion" value="<%=descripcion%>"/></br>
-            Estado: <input name="estado" value="<%=estado%>"/></br>
-            Prioridad: <input name="prioridad" value="<%=prioridad%>"/></br>
+            Estado: <select name="estado">
+                <% if (estado.equalsIgnoreCase("To Do")) {
+                        selected = "selected";%>
+                <option value="To Do" selected="<%=selected%>">To Do</option>
+                <%}%>
+                <% if (estado.equalsIgnoreCase("In Process")) {
+                        selected = "selected";%>
+                <option value="In Process" selected="<%=selected%>">In Process</option>
+                <%}%>
+                <% if (estado.equalsIgnoreCase("Done")) {
+                        selected = "selected";%>
+                <option value="Done" selected="<%=selected%>">Done</option>
+                <%}%>
+                <% if (estado.equalsIgnoreCase("Testing")) {
+                        selected = "selected";%>
+                <option value="Testing" selected="<%=selected%>">Testing</option>
+                <%}%>
+            </select>
+            Prioridad: <select name="prioridad">
+                <% selected = "";
+                    if (prioridad.equalsIgnoreCase("1")) {
+                        selected = "selected";%>
+                <option value="1" selected="<%=selected%>">Alta</option>
+                <%}%>
+                <%if (prioridad.equalsIgnoreCase("2")) {
+                        selected = "selected";%>
+                <option value="2" selected="<%=selected%>">Media</option>
+                <%}%>
+                <%if (prioridad.equalsIgnoreCase("3")) {
+                        selected = "selected";%>
+                <option value="3" selected="<%=selected%>">Baja</option>
+                <%}%>
+            </select>
             <button>Guardar</button> </t>
     </form>
     <button><a href="/proyecto.jsp">Cancelar</a></button>
