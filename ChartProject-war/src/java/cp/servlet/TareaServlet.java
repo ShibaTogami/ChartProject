@@ -1,18 +1,20 @@
+package cp.servlet;
+
 /*
  * To change this license header, choose License Headers in Project Properties.
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package cp.servlet;
 
+import cp.ejb.ComentarioFacade;
+import cp.ejb.TareaFacade;
+import cp.entity.Comentario;
 import cp.entity.Tarea;
 import cp.entity.TareaPK;
-import cp.ejb.TareaFacade;
-import cp.entity.Tarea;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.math.BigInteger;
-import java.util.Date;
+import java.util.List;
 import javax.ejb.EJB;
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
@@ -25,11 +27,13 @@ import javax.servlet.http.HttpServletResponse;
  *
  * @author rocio
  */
-@WebServlet(name = "GuardarTareaServlet", urlPatterns = {"/GuardarTareaServlet"})
-public class GuardarTareaServlet extends HttpServlet {
+@WebServlet(urlPatterns = {"/TareaServlet"})
+public class TareaServlet extends HttpServlet {
+
     @EJB
     TareaFacade tareaFacade;
-    
+    @EJB
+    ComentarioFacade comentarioFacade;
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -42,28 +46,26 @@ public class GuardarTareaServlet extends HttpServlet {
      */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        String tareaId, proyectoId;
-        Tarea tarea;
+        String idProyecto = request.getParameter("idProyecto");
+        String idTarea = request.getParameter("idTarea");
+        TareaPK tareaPK = new TareaPK(new BigInteger(idTarea), new BigInteger(idProyecto));
+
+        Tarea tarea = this.tareaFacade.find(tareaPK);
+        List<Comentario> listaComentarios = this.comentarioFacade.findAll();
         
-        proyectoId = request.getParameter("proyectoId");
-        tareaId = request.getParameter("tareaId");
-        
-        if("".equals(tareaId)){
-            tarea = new Tarea();
-        }else{
-            tarea = tareaFacade.find(new TareaPK(new BigInteger(tareaId), new BigInteger(proyectoId)));
+        for(Comentario c : listaComentarios){
+            if(!c.getTarea().getTareaPK().equals(tareaPK)){
+                listaComentarios.remove(c);
+            }
         }
-        
-        tarea.setNombre(request.getParameter("nombre"));
-        //tarea.setFechaInicio(Date.parse(request.getParameter("fechaInicio")));
-        tarea.setDescripcion(request.getParameter("descripcion"));
-        tarea.setEstado(request.getParameter("estado"));
-        tarea.setPrioridad(new BigInteger(request.getParameter("prioridad")));
-        
-        this.tareaFacade.edit(tarea);
-        
+
+        request.setAttribute("tarea", tarea);
+        request.setAttribute("listaComentarios", listaComentarios);
+
         RequestDispatcher rd;
-        rd = this.getServletContext().getRequestDispatcher("/ProyectoServlet?id="+proyectoId);
+
+        rd = this.getServletContext().getRequestDispatcher("/tarea.jsp");
+
         rd.forward(request, response);
     }
 
