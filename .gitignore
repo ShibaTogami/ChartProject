@@ -1,3 +1,8 @@
 /nbproject/private/
 /ChartProject-ejb/nbproject/private/
 /ChartProject-war/nbproject/private/
+/ChartProject-ejb/build/
+/ChartProject-war/build/
+/ChartProject-ejb/dist/
+/build/
+/ChartProject-war/dist/
