@@ -6,9 +6,11 @@
 package cp.ejb;
 
 import cp.entity.Proyecto;
+import java.math.BigDecimal;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
+import javax.persistence.Query;
 
 /**
  *
@@ -27,6 +29,14 @@ public class ProyectoFacade extends AbstractFacade<Proyecto> {
 
     public ProyectoFacade() {
         super(Proyecto.class);
+    }
+    
+    public Proyecto findByIdProyecto (BigDecimal idProyecto) {
+        Query q;
+
+       q = em.createNamedQuery("Proyecto.findByIdProyecto");
+       q.setParameter("idProyecto", idProyecto);
+       return (Proyecto)q.getSingleResult();
     }
     
 }

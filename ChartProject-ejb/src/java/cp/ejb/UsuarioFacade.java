@@ -36,5 +36,8 @@ public class UsuarioFacade extends AbstractFacade<Usuario> {
         
         return (Usuario)q.getSingleResult();
     }
+
+    public void businessMethod() {
+    }
     
 }
