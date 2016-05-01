@@ -39,7 +39,6 @@ public class loginServlet extends HttpServlet {
      */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        
         String usuario = request.getParameter("usuario");
         String password = request.getParameter("password");
         HttpSession sesion = request.getSession();
