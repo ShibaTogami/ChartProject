@@ -10,8 +10,10 @@ import java.math.BigInteger;
 import java.util.Collection;
 import java.util.Date;
 import javax.persistence.Basic;
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
@@ -44,7 +46,9 @@ import javax.xml.bind.annotation.XmlTransient;
     @NamedQuery(name = "Usuario.findByFechaRegistro", query = "SELECT u FROM Usuario u WHERE u.fechaRegistro = :fechaRegistro"),
     @NamedQuery(name = "Usuario.findByKarma", query = "SELECT u FROM Usuario u WHERE u.karma = :karma"),
     @NamedQuery(name = "Usuario.findByWebPersonal", query = "SELECT u FROM Usuario u WHERE u.webPersonal = :webPersonal"),
-    @NamedQuery(name = "Usuario.findByEmail", query = "SELECT u FROM Usuario u WHERE u.email = :email")})
+    @NamedQuery(name = "Usuario.findByEmail", query = "SELECT u FROM Usuario u WHERE u.email = :email"),
+    @NamedQuery(name = "Usuario.findByPregunta", query = "SELECT u FROM Usuario u WHERE u.pregunta = :pregunta"),
+    @NamedQuery(name = "Usuario.findByRespuesta", query = "SELECT u FROM Usuario u WHERE u.respuesta = :respuesta")})
 public class Usuario implements Serializable {
 
     private static final long serialVersionUID = 1L;
@@ -84,22 +88,30 @@ public class Usuario implements Serializable {
     @Size(min = 1, max = 50)
     @Column(name = "EMAIL")
     private String email;
-    @JoinTable(name = "PARTICIPANTE_PROYECTO", joinColumns = {
-        @JoinColumn(name = "USUARIO_NICKNAME", referencedColumnName = "NICKNAME")}, inverseJoinColumns = {
-        @JoinColumn(name = "PROYECTO_ID_PROYECTO", referencedColumnName = "ID_PROYECTO")})
-    @ManyToMany
+    @Size(max = 100)
+    @Column(name = "PREGUNTA")
+    private String pregunta;
+    @Size(max = 100)
+    @Column(name = "RESPUESTA")
+    private String respuesta;
+    @ManyToMany(mappedBy = "usuarioCollection", fetch = FetchType.EAGER)
     private Collection<Proyecto> proyectoCollection;
-    @ManyToMany(mappedBy = "usuarioCollection")
+    @ManyToMany(mappedBy = "usuarioCollection", fetch = FetchType.EAGER)
     private Collection<Mensaje> mensajeCollection;
     @JoinTable(name = "USUARIO_TAREA", joinColumns = {
         @JoinColumn(name = "USUARIO_NICKNAME", referencedColumnName = "NICKNAME")}, inverseJoinColumns = {
         @JoinColumn(name = "TAREA_ID_TAREA", referencedColumnName = "ID_TAREA"),
         @JoinColumn(name = "TAREA_ID_PROYECTO", referencedColumnName = "ID_PROYECTO")})
-    @ManyToMany
+    @ManyToMany(fetch = FetchType.EAGER)
     private Collection<Tarea> tareaCollection;
-    @ManyToMany(mappedBy = "usuarioCollection1")
+    @JoinTable(name = "ENVIANDO", joinColumns = {
+        @JoinColumn(name = "USUARIO_NICKNAME", referencedColumnName = "NICKNAME")}, inverseJoinColumns = {
+        @JoinColumn(name = "MENSAJE_ID_MENSAJE", referencedColumnName = "ID_MENSAJE")})
+    @ManyToMany(fetch = FetchType.EAGER)
     private Collection<Mensaje> mensajeCollection1;
-    @OneToMany(mappedBy = "lider")
+    @OneToMany(mappedBy = "nickname", fetch = FetchType.EAGER)
+    private Collection<Comentario> comentarioCollection;
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "lider", fetch = FetchType.EAGER)
     private Collection<Proyecto> proyectoCollection1;
 
     public Usuario() {
@@ -188,6 +200,22 @@ public class Usuario implements Serializable {
         this.email = email;
     }
 
+    public String getPregunta() {
+        return pregunta;
+    }
+
+    public void setPregunta(String pregunta) {
+        this.pregunta = pregunta;
+    }
+
+    public String getRespuesta() {
+        return respuesta;
+    }
+
+    public void setRespuesta(String respuesta) {
+        this.respuesta = respuesta;
+    }
+
     @XmlTransient
     public Collection<Proyecto> getProyectoCollection() {
         return proyectoCollection;
@@ -222,6 +250,15 @@ public class Usuario implements Serializable {
 
     public void setMensajeCollection1(Collection<Mensaje> mensajeCollection1) {
         this.mensajeCollection1 = mensajeCollection1;
+    }
+
+    @XmlTransient
+    public Collection<Comentario> getComentarioCollection() {
+        return comentarioCollection;
+    }
+
+    public void setComentarioCollection(Collection<Comentario> comentarioCollection) {
+        this.comentarioCollection = comentarioCollection;
     }
 
     @XmlTransient

@@ -5,7 +5,7 @@
  */
 package cp.ejb;
 
-import java.util.List; 
+import java.util.List;
 import javax.persistence.EntityManager;
 
 /**

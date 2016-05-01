@@ -13,8 +13,10 @@ import javax.persistence.Basic;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
@@ -67,12 +69,17 @@ public class Proyecto implements Serializable {
     @Size(max = 50)
     @Column(name = "ESTADO")
     private String estado;
-    @ManyToMany(mappedBy = "proyectoCollection")
+    @JoinTable(name = "PARTICIPANTE_PROYECTO", joinColumns = {
+        @JoinColumn(name = "PROYECTO_ID_PROYECTO", referencedColumnName = "ID_PROYECTO")}, inverseJoinColumns = {
+        @JoinColumn(name = "USUARIO_NICKNAME", referencedColumnName = "NICKNAME")})
+    @ManyToMany(fetch = FetchType.EAGER)
     private Collection<Usuario> usuarioCollection;
+    @OneToMany(mappedBy = "idProyecto1", fetch = FetchType.EAGER)
+    private Collection<Comentario> comentarioCollection;
     @JoinColumn(name = "LIDER", referencedColumnName = "NICKNAME")
-    @ManyToOne
+    @ManyToOne(optional = false, fetch = FetchType.EAGER)
     private Usuario lider;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "proyecto")
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "proyecto", fetch = FetchType.EAGER)
     private Collection<Tarea> tareaCollection;
 
     public Proyecto() {
@@ -137,6 +144,15 @@ public class Proyecto implements Serializable {
 
     public void setUsuarioCollection(Collection<Usuario> usuarioCollection) {
         this.usuarioCollection = usuarioCollection;
+    }
+
+    @XmlTransient
+    public Collection<Comentario> getComentarioCollection() {
+        return comentarioCollection;
+    }
+
+    public void setComentarioCollection(Collection<Comentario> comentarioCollection) {
+        this.comentarioCollection = comentarioCollection;
     }
 
     public Usuario getLider() {

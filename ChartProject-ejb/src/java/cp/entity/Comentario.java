@@ -6,16 +6,19 @@
 package cp.entity;
 
 import java.io.Serializable;
-import java.math.BigInteger;
+import java.math.BigDecimal;
+import javax.persistence.Basic;
 import javax.persistence.Column;
-import javax.persistence.EmbeddedId;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
+import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.JoinColumns;
 import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.Table;
+import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import javax.xml.bind.annotation.XmlRootElement;
 
@@ -28,41 +31,45 @@ import javax.xml.bind.annotation.XmlRootElement;
 @XmlRootElement
 @NamedQueries({
     @NamedQuery(name = "Comentario.findAll", query = "SELECT c FROM Comentario c"),
-    @NamedQuery(name = "Comentario.findByIdComentario", query = "SELECT c FROM Comentario c WHERE c.comentarioPK.idComentario = :idComentario"),
-    @NamedQuery(name = "Comentario.findByTexto", query = "SELECT c FROM Comentario c WHERE c.texto = :texto"),
-    @NamedQuery(name = "Comentario.findByIdTarea", query = "SELECT c FROM Comentario c WHERE c.comentarioPK.idTarea = :idTarea"),
-    @NamedQuery(name = "Comentario.findByIdProyecto", query = "SELECT c FROM Comentario c WHERE c.comentarioPK.idProyecto = :idProyecto")})
+    @NamedQuery(name = "Comentario.findByIdComentario", query = "SELECT c FROM Comentario c WHERE c.idComentario = :idComentario"),
+    @NamedQuery(name = "Comentario.findByTexto", query = "SELECT c FROM Comentario c WHERE c.texto = :texto")})
 public class Comentario implements Serializable {
 
     private static final long serialVersionUID = 1L;
-    @EmbeddedId
-    protected ComentarioPK comentarioPK;
+    // @Max(value=?)  @Min(value=?)//if you know range of your decimal fields consider using these annotations to enforce field validation
+    @Id
+    @Basic(optional = false)
+    @NotNull
+    @Column(name = "ID_COMENTARIO")
+    private BigDecimal idComentario;
     @Size(max = 500)
     @Column(name = "TEXTO")
     private String texto;
+    @JoinColumn(name = "ID_PROYECTO1", referencedColumnName = "ID_PROYECTO")
+    @ManyToOne(fetch = FetchType.EAGER)
+    private Proyecto idProyecto1;
     @JoinColumns({
-        @JoinColumn(name = "ID_TAREA", referencedColumnName = "ID_TAREA", insertable = false, updatable = false),
-        @JoinColumn(name = "ID_PROYECTO", referencedColumnName = "ID_PROYECTO", insertable = false, updatable = false)})
-    @ManyToOne(optional = false)
+        @JoinColumn(name = "ID_TAREA", referencedColumnName = "ID_TAREA"),
+        @JoinColumn(name = "ID_PROYECTO", referencedColumnName = "ID_PROYECTO")})
+    @ManyToOne(fetch = FetchType.EAGER)
     private Tarea tarea;
+    @JoinColumn(name = "NICKNAME", referencedColumnName = "NICKNAME")
+    @ManyToOne(fetch = FetchType.EAGER)
+    private Usuario nickname;
 
     public Comentario() {
     }
 
-    public Comentario(ComentarioPK comentarioPK) {
-        this.comentarioPK = comentarioPK;
+    public Comentario(BigDecimal idComentario) {
+        this.idComentario = idComentario;
     }
 
-    public Comentario(BigInteger idComentario, BigInteger idTarea, BigInteger idProyecto) {
-        this.comentarioPK = new ComentarioPK(idComentario, idTarea, idProyecto);
+    public BigDecimal getIdComentario() {
+        return idComentario;
     }
 
-    public ComentarioPK getComentarioPK() {
-        return comentarioPK;
-    }
-
-    public void setComentarioPK(ComentarioPK comentarioPK) {
-        this.comentarioPK = comentarioPK;
+    public void setIdComentario(BigDecimal idComentario) {
+        this.idComentario = idComentario;
     }
 
     public String getTexto() {
@@ -73,6 +80,14 @@ public class Comentario implements Serializable {
         this.texto = texto;
     }
 
+    public Proyecto getIdProyecto1() {
+        return idProyecto1;
+    }
+
+    public void setIdProyecto1(Proyecto idProyecto1) {
+        this.idProyecto1 = idProyecto1;
+    }
+
     public Tarea getTarea() {
         return tarea;
     }
@@ -81,10 +96,18 @@ public class Comentario implements Serializable {
         this.tarea = tarea;
     }
 
+    public Usuario getNickname() {
+        return nickname;
+    }
+
+    public void setNickname(Usuario nickname) {
+        this.nickname = nickname;
+    }
+
     @Override
     public int hashCode() {
         int hash = 0;
-        hash += (comentarioPK != null ? comentarioPK.hashCode() : 0);
+        hash += (idComentario != null ? idComentario.hashCode() : 0);
         return hash;
     }
 
@@ -95,7 +118,7 @@ public class Comentario implements Serializable {
             return false;
         }
         Comentario other = (Comentario) object;
-        if ((this.comentarioPK == null && other.comentarioPK != null) || (this.comentarioPK != null && !this.comentarioPK.equals(other.comentarioPK))) {
+        if ((this.idComentario == null && other.idComentario != null) || (this.idComentario != null && !this.idComentario.equals(other.idComentario))) {
             return false;
         }
         return true;
@@ -103,7 +126,7 @@ public class Comentario implements Serializable {
 
     @Override
     public String toString() {
-        return "cp.entity.Comentario[ comentarioPK=" + comentarioPK + " ]";
+        return "cp.entity.Comentario[ idComentario=" + idComentario + " ]";
     }
     
 }

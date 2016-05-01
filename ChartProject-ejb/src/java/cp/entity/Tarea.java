@@ -9,10 +9,10 @@ import java.io.Serializable;
 import java.math.BigInteger;
 import java.util.Collection;
 import java.util.Date;
-import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.EmbeddedId;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
@@ -65,12 +65,12 @@ public class Tarea implements Serializable {
     private String estado;
     @Column(name = "PRIORIDAD")
     private BigInteger prioridad;
-    @ManyToMany(mappedBy = "tareaCollection")
+    @ManyToMany(mappedBy = "tareaCollection", fetch = FetchType.EAGER)
     private Collection<Usuario> usuarioCollection;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "tarea")
+    @OneToMany(mappedBy = "tarea", fetch = FetchType.EAGER)
     private Collection<Comentario> comentarioCollection;
     @JoinColumn(name = "ID_PROYECTO", referencedColumnName = "ID_PROYECTO", insertable = false, updatable = false)
-    @ManyToOne(optional = false)
+    @ManyToOne(optional = false, fetch = FetchType.EAGER)
     private Proyecto proyecto;
 
     public Tarea() {
