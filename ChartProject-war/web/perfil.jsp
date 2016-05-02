@@ -29,8 +29,8 @@
         Web: <%= user.getWebPersonal() %><br/>
         Miembro desde: <%= user.getFechaRegistro()%><br/>
         Ultima conexion: <%= user.getUltimaConexion()%> <br/>
-        Karma: <%= user.getKarma()%><br/><br/>
-        <a href="/LogoutServlet">Logout</a><br/>
+        Karma: <%= user.getKarma()%><br/>
+        <a href="/logoutServlet">Logout</a><br/><br/>
             
         
         <%--
@@ -47,7 +47,7 @@
             </th>
         </tr>
         <%}%>
-         </table>
+         </table><br/>
                 
         <%--
             Muestro los proyectos que lidera, en el caso de que lidere alguno
@@ -68,7 +68,7 @@
         <%}else{%>
             No lidera ningún proyecto
         <%}%>
-        
+        <br/><br/>
         <%--
             Muestro los comentarios realizados por el usuario
         --%>
