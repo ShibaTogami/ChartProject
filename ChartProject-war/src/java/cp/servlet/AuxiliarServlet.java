@@ -5,8 +5,13 @@
  */
 package cp.servlet;
 
+import cp.ejb.UsuarioFacade;
+import cp.entity.Usuario;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.util.ArrayList;
+import java.util.List;
+import javax.ejb.EJB;
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -20,6 +25,9 @@ import javax.servlet.http.HttpServletResponse;
  */
 @WebServlet(name = "auxiliarServlet", urlPatterns = {"/auxiliarServlet"})
 public class AuxiliarServlet extends HttpServlet {
+
+    @EJB
+    private UsuarioFacade usuarioFacade;
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -37,10 +45,19 @@ public class AuxiliarServlet extends HttpServlet {
                 request.setAttribute("nombreProyecto", request.getParameter("nombreProyecto"));
                 request.setAttribute("fechaInicioProyecto", request.getParameter("fechaInicioProyecto"));
                 request.setAttribute("descripcionProyecto", request.getParameter("descripcionProyecto"));
-                request.setAttribute("nuevoParticipanteProyecto", request.getParameter("nuevoParticipanteProyecto"));
-                
+                List<Usuario> participantes = new ArrayList<Usuario>();
+                if (request.getAttribute("participantes") != null) {
+                    participantes = (List<Usuario>) request.getAttribute("participantes");
+                }
+                //Sacamos el usuario de la BD y lo insertamos (si existe) en la lista de participantes
+                if (request.getParameter("nuevoParticipanteProyecto") != null) {
+                    Usuario usuario = (Usuario) usuarioFacade.getUsuarioPorNickname(request.getParameter("nuevoParticipanteProyecto"));
+                    if(usuario != null) {
+                        participantes.add(usuario);
+                    }
+                }
                 RequestDispatcher rd;
-                rd = getServletContext().getRequestDispatcher("/anadirParticipanteServlet");
+                rd = getServletContext().getRequestDispatcher("/nuevoProyecto.jsp");
                 rd.forward(request, response);
             } else if (request.getParameter("boton").equals("Guardar")) {
                 request.setAttribute("nombreProyecto", request.getParameter("nombreProyecto"));
@@ -48,7 +65,7 @@ public class AuxiliarServlet extends HttpServlet {
                 request.setAttribute("descripcionProyecto", request.getParameter("descripcionProyecto"));
                 
                 RequestDispatcher rd;
-                rd = getServletContext().getRequestDispatcher("/anadirParticipanteServlet");
+                rd = getServletContext().getRequestDispatcher("/nuevoProyectoServlet");
                 rd.forward(request, response);
             } else {
                 //Error, botón nulo.

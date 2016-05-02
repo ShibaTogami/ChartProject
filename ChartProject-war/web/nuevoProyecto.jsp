@@ -15,15 +15,23 @@
     }
     %>
 <html>
-    <head>QUE NO SE TE OLVIDE PONER LOS VALORES POR DEFECTO CUANDO VUELVES DEL AÑADIR PARTICIPANTE
+    <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
         <title>Crear proyecto</title>
     </head>
     <body>
         <h1>Crear proyecto</h1>
         <form name="input" action="auxiliarServlet" method="post">
-        Nombre: <input type="text" maxlength="50" size="20" name="nombreProyecto"></br>
-        Fecha de inicio: <input type="text" maxlength="10" name="fechaInicioProyecto" value="dd/mm/aaaa"></br>
+        Nombre: <input type="text" maxlength="50" size="20" name="nombreProyecto" value="
+        <%if (request.getAttribute("nombreProyecto") != null) {%>
+        <%=request.getAttribute("nombreProyecto")%> 
+        <%}%>"></br>              
+        Fecha de inicio: <input type="text" maxlength="10" name="fechaInicioProyecto" value="
+        <%if (request.getAttribute("fechaInicioProyecto") != null) {%>
+        <%=request.getAttribute("fechaInicioProyecto")%>
+        <%} else {%>
+        dd/mm/aaaa
+        <% }%>"></br>
         Participantes: 
         <%
             if (participantes != null) {
@@ -38,8 +46,12 @@
             
             Descripci&oacu&oacute;n: </br>
             <textarea name="descripcionProyecto" rows="100" cols="30">
+            <%if(request.getAttribute("descripcionProyecto") != null) {%>
+            <%=request.getAttribute("descripcionProyecto")%>
+            <% } else {%>
             Escriba una descripci&oacute;n para los nuevos participantes del proyecto.
-            </textarea>
+            <% } %>
+            </textarea></br>
             <input type="submit" value="Guardar" name="boton">
             &nbsp;
             
