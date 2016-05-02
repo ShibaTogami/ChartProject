@@ -14,9 +14,8 @@
     <body>
         <h1>Pagina principal</h1>
         <%HttpSession sesion = request.getSession();
-        boolean retorno = new Boolean((String)sesion.getAttribute("retorno"));
-        if (retorno==true)
-        {%>
+            boolean retorno = new Boolean((String) sesion.getAttribute("retorno"));
+            if (retorno == true) {%>
         <h1>Contrase&ntilde;a Erronea!!</h1>
         <%}
         %>
@@ -25,6 +24,7 @@
             Contrase&ntilde;a: <input type="password" size="20" name="password"/>
             <input type="submit" value="Log in">
         </form>
-        <%sesion.removeAttribute("retorno");%>
+        <h6><a href="registro.jsp">Registro</a>    <a href="recuperarContrasena.jsp">Olvid&eacute; mi contrase&ntilde;a</a>
+            <%sesion.removeAttribute("retorno");%>
     </body>
 </html>

@@ -65,12 +65,12 @@ public class Tarea implements Serializable {
     private String estado;
     @Column(name = "PRIORIDAD")
     private BigInteger prioridad;
-    @ManyToMany(mappedBy = "tareaCollection", fetch = FetchType.EAGER)
+    @ManyToMany(mappedBy = "tareaCollection", fetch = FetchType.LAZY)
     private Collection<Usuario> usuarioCollection;
-    @OneToMany(mappedBy = "tarea", fetch = FetchType.EAGER)
+    @OneToMany(mappedBy = "tarea", fetch = FetchType.LAZY)
     private Collection<Comentario> comentarioCollection;
     @JoinColumn(name = "ID_PROYECTO", referencedColumnName = "ID_PROYECTO", insertable = false, updatable = false)
-    @ManyToOne(optional = false, fetch = FetchType.EAGER)
+    @ManyToOne(optional = false, fetch = FetchType.LAZY)
     private Proyecto proyecto;
 
     public Tarea() {

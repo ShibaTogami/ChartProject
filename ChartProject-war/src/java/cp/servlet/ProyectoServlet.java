@@ -8,7 +8,6 @@ package cp.servlet;
 import cp.ejb.ProyectoFacade;
 import cp.entity.Proyecto;
 import java.io.IOException;
-import java.io.PrintWriter;
 import java.math.BigDecimal;
 import javax.ejb.EJB;
 import javax.servlet.RequestDispatcher;

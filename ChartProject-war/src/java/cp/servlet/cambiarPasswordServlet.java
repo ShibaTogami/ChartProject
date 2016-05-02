@@ -5,27 +5,21 @@
  */
 package cp.servlet;
 
-import cp.ejb.UsuarioFacade;
-import cp.entity.Usuario;
 import java.io.IOException;
-import javax.ejb.EJB;
+import java.io.PrintWriter;
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
 
 /**
  *
  * @author shiba
  */
-@WebServlet(name = "loginServlet", urlPatterns = {"/loginServlet"})
-public class loginServlet extends HttpServlet {
-
-    @EJB
-    private UsuarioFacade usuarioFacade;
+@WebServlet(name = "cambiarPasswordServlet", urlPatterns = {"/cambiarPasswordServlet"})
+public class cambiarPasswordServlet extends HttpServlet {
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -38,42 +32,19 @@ public class loginServlet extends HttpServlet {
      */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        String usuario = request.getParameter("usuario");
-        String password = request.getParameter("password");
-        HttpSession sesion = request.getSession();
-        RequestDispatcher rd;
-        boolean caracteres = true;
-
-        //System.err.println("entro!!!!!!");
-        //comprobaremos si el password tiene caracteres que podria crear problemas
-        //de seguridad
-        for (char aux : password.toCharArray()) {
-            if (aux == '\'' || aux == '"' || aux == '+' || aux == '-' || aux == '*' || aux == '/') {
-                caracteres = false;
-            }
-        }
-
-        if (!caracteres) //si hay caracteres maliciosos
+        String pass1 = request.getParameter("pass1");
+        String pass2 = request.getParameter("pass2");
+        RequestDispatcher rd = null;
+        if (!pass1.equals(pass2)) //si son diferentes vuelta a la selección de contraseña
         {
-            sesion.setAttribute("retorno", "true");
-            rd = this.getServletContext().getRequestDispatcher("/index.jsp");
-        } else //consultamos el pass
-        {
-            Usuario user = usuarioFacade.getUsuarioPorNickname(usuario);
-
-            if (!user.getPassword().equals(password)) //si no corresponden
-            {
-                sesion.setAttribute("retorno", "true");
-                rd = this.getServletContext().getRequestDispatcher("/index.jsp");
-            } else //si coinciden
-            {
-                sesion.setAttribute("usuario", user);
-                rd = this.getServletContext().getRequestDispatcher("/principal.jsp");
-            }
+            rd = this.getServletContext().getRequestDispatcher("/nuevaContrasena.jsp");
         }
-
+        else //si coinciden se cambia
+        {
+            //cambiar aquí la contraseña al usuario tanto en la sesion como en la BD
+            rd = this.getServletContext().getRequestDispatcher("/principal.jsp");
+        }
         rd.forward(request, response);
-
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">

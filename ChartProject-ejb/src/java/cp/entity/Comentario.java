@@ -46,15 +46,15 @@ public class Comentario implements Serializable {
     @Column(name = "TEXTO")
     private String texto;
     @JoinColumn(name = "ID_PROYECTO1", referencedColumnName = "ID_PROYECTO")
-    @ManyToOne(fetch = FetchType.EAGER)
+    @ManyToOne(fetch = FetchType.LAZY)
     private Proyecto idProyecto1;
     @JoinColumns({
         @JoinColumn(name = "ID_TAREA", referencedColumnName = "ID_TAREA"),
         @JoinColumn(name = "ID_PROYECTO", referencedColumnName = "ID_PROYECTO")})
-    @ManyToOne(fetch = FetchType.EAGER)
+    @ManyToOne(fetch = FetchType.LAZY)
     private Tarea tarea;
     @JoinColumn(name = "NICKNAME", referencedColumnName = "NICKNAME")
-    @ManyToOne(fetch = FetchType.EAGER)
+    @ManyToOne(fetch = FetchType.LAZY)
     private Usuario nickname;
 
     public Comentario() {

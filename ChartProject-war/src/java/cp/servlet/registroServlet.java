@@ -8,6 +8,7 @@ package cp.servlet;
 import cp.ejb.UsuarioFacade;
 import cp.entity.Usuario;
 import java.io.IOException;
+import java.util.Date;
 import javax.ejb.EJB;
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
@@ -21,8 +22,8 @@ import javax.servlet.http.HttpSession;
  *
  * @author shiba
  */
-@WebServlet(name = "loginServlet", urlPatterns = {"/loginServlet"})
-public class loginServlet extends HttpServlet {
+@WebServlet(name = "registroServlet", urlPatterns = {"/registroServlet"})
+public class registroServlet extends HttpServlet {
 
     @EJB
     private UsuarioFacade usuarioFacade;
@@ -38,38 +39,53 @@ public class loginServlet extends HttpServlet {
      */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
+        RequestDispatcher rd = null;
         String usuario = request.getParameter("usuario");
         String password = request.getParameter("password");
+        String confirmaPassword = request.getParameter("confirmaPassword");
+        String email = request.getParameter("email");
+        String confirmaEmail = request.getParameter("confirmaEmail");
+        String preguntaSecreta = request.getParameter("preguntaSecreta");
+        String respuestaSecreta = request.getParameter("respuestaSecreta");
+        Date fechaRegistro = new Date();
         HttpSession sesion = request.getSession();
-        RequestDispatcher rd;
-        boolean caracteres = true;
 
-        //System.err.println("entro!!!!!!");
-        //comprobaremos si el password tiene caracteres que podria crear problemas
-        //de seguridad
-        for (char aux : password.toCharArray()) {
-            if (aux == '\'' || aux == '"' || aux == '+' || aux == '-' || aux == '*' || aux == '/') {
-                caracteres = false;
-            }
+        Usuario usuarioTemporal = new Usuario(usuario);//creamos usuario temporal para guardar los datos
+        //primero comprobamos que coinciden contraseñas y mails
+        if (!password.equals(confirmaPassword)) //si las contraseñas son diferentes
+        {
+            sesion.setAttribute("error", "password"); //mandamos mensaje de error
+
+            usuarioTemporal.setPassword("");
+
+            rd = this.getServletContext().getRequestDispatcher("/registro.jsp");
         }
-
-        if (!caracteres) //si hay caracteres maliciosos
+        if (!email.equals(confirmaEmail))//si difieren los mails
         {
-            sesion.setAttribute("retorno", "true");
-            rd = this.getServletContext().getRequestDispatcher("/index.jsp");
-        } else //consultamos el pass
-        {
-            Usuario user = usuarioFacade.getUsuarioPorNickname(usuario);
-
-            if (!user.getPassword().equals(password)) //si no corresponden
+            if (sesion.getAttribute("error").equals("password")) //si ha fallado también la contraseña
             {
-                sesion.setAttribute("retorno", "true");
-                rd = this.getServletContext().getRequestDispatcher("/index.jsp");
-            } else //si coinciden
+                sesion.setAttribute("error", "email y password");
+            } else //si solo fallan los mails
             {
-                sesion.setAttribute("usuario", user);
-                rd = this.getServletContext().getRequestDispatcher("/principal.jsp");
+                sesion.setAttribute("error", "email");
             }
+            usuarioTemporal.setEmail("");
+            rd = this.getServletContext().getRequestDispatcher("/registro.jsp");
+        }
+        sesion.setAttribute("usuarioTemporal", usuarioTemporal);
+
+        //si no ha habido ningun error
+        if (sesion.getAttribute("error") == null) {
+            //convertimos usuario temporal en usuario permanente y redirigimos a perfilServlet
+            usuarioTemporal.setEmail(email);
+            usuarioTemporal.setFechaRegistro(fechaRegistro);
+            usuarioTemporal.setPassword(password);
+            usuarioTemporal.setFechaRegistro(fechaRegistro);
+            usuarioTemporal.setPregunta(preguntaSecreta);
+            usuarioTemporal.setRespuesta(respuestaSecreta);
+            usuarioFacade.create(usuarioTemporal);
+            sesion.setAttribute("usuario", usuarioTemporal);
+            rd = this.getServletContext().getRequestDispatcher("/perfilServlet");
         }
 
         rd.forward(request, response);

@@ -72,14 +72,14 @@ public class Proyecto implements Serializable {
     @JoinTable(name = "PARTICIPANTE_PROYECTO", joinColumns = {
         @JoinColumn(name = "PROYECTO_ID_PROYECTO", referencedColumnName = "ID_PROYECTO")}, inverseJoinColumns = {
         @JoinColumn(name = "USUARIO_NICKNAME", referencedColumnName = "NICKNAME")})
-    @ManyToMany(fetch = FetchType.EAGER)
+    @ManyToMany(fetch = FetchType.LAZY)
     private Collection<Usuario> usuarioCollection;
-    @OneToMany(mappedBy = "idProyecto1", fetch = FetchType.EAGER)
+    @OneToMany(mappedBy = "idProyecto1", fetch = FetchType.LAZY)
     private Collection<Comentario> comentarioCollection;
     @JoinColumn(name = "LIDER", referencedColumnName = "NICKNAME")
-    @ManyToOne(optional = false, fetch = FetchType.EAGER)
+    @ManyToOne(optional = false, fetch = FetchType.LAZY)
     private Usuario lider;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "proyecto", fetch = FetchType.EAGER)
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "proyecto", fetch = FetchType.LAZY)
     private Collection<Tarea> tareaCollection;
 
     public Proyecto() {

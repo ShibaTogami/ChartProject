@@ -61,9 +61,9 @@ public class Mensaje implements Serializable {
     @JoinTable(name = "RECIBIENDO", joinColumns = {
         @JoinColumn(name = "MENSAJE_ID_MENSAJE", referencedColumnName = "ID_MENSAJE")}, inverseJoinColumns = {
         @JoinColumn(name = "USUARIO_NICKNAME", referencedColumnName = "NICKNAME")})
-    @ManyToMany(fetch = FetchType.EAGER)
+    @ManyToMany(fetch = FetchType.LAZY)
     private Collection<Usuario> usuarioCollection;
-    @ManyToMany(mappedBy = "mensajeCollection1", fetch = FetchType.EAGER)
+    @ManyToMany(mappedBy = "mensajeCollection1", fetch = FetchType.LAZY)
     private Collection<Usuario> usuarioCollection1;
 
     public Mensaje() {
