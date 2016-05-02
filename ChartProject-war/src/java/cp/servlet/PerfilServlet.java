@@ -46,7 +46,7 @@ public class PerfilServlet extends HttpServlet {
         Usuario user = (Usuario) sesion.getAttribute("usuario");
         
         Collection<Proyecto> proyectos = user.getProyectoCollection();
-        Collection<Proyecto> lidera = user.getProyectoCollection1();
+        Collection<Proyecto> lidera = user.getProyectoCollection1();        //Recupera los proyectos de los que el usuario es lider
         Collection<Comentario> comentarios = user.getComentarioCollection();
         
         request.setAttribute("proyectos", proyectos);
