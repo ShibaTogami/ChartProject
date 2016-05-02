@@ -24,33 +24,28 @@
         <title>Pagina de perfil</title>
     </head>
     <body>
-        <h1>Usuario <%= user.getNickname() %></h1>
+        <h3>Usuario <%= user.getNickname() %></h3>
         Email: <%= user.getEmail() %><br/>
         Web: <%= user.getWebPersonal() %><br/>
         Miembro desde: <%= user.getFechaRegistro()%><br/>
         Ultima conexion: <%= user.getUltimaConexion()%> <br/>
         Karma: <%= user.getKarma()%><br/><br/>
-        <a href="LogoutServlet">Logout</a><br/>
+        <a href="/LogoutServlet">Logout</a><br/>
             
         
         <%--
-            Todo lo que se va a mostrar a continuacion sería necesario enlazarlo
-            con el correspondiente servlet para acceder directamente al proyecto
             Muestro los proyectos en los que está involucrado
         --%>
         <table>
         <tr>
-            <th>Proyectos</th>
+            <th><b>Proyectos</b></th>
         </tr>
-        
         <% for(Proyecto pr : proyectos){ %>
-        
         <tr>
             <th>
-                <%= pr.getNombre() %>
+                <a href="/proyectoServlet?idProyecto=<%= pr.getIdProyecto() %>"><%= pr.getNombre() %></a>
             </th>
         </tr>
-        
         <%}%>
          </table>
                 
@@ -60,20 +55,18 @@
         <% if(!lidera.isEmpty()){ %>
             <table>
             <tr>
-                <th>Lidera</th>
+                <th><b>Lidera</b></th>
             </tr>
-        
-            <% for(Proyecto pr : lidera){ %>
-        
+            <% for(Proyecto pr : lidera){ %>       
             <tr>
                 <th>
-                    <%= pr.getNombre() %>
+                    <a href="/proyectoServlet?idProyecto=<%= pr.getIdProyecto() %>"><%= pr.getNombre() %></a>
                 </th>
-            </tr>
-        
+            </tr>   
             <%}%>
-        
             </table>
+        <%}else{%>
+            No lidera ningún proyecto
         <%}%>
         
         <%--
@@ -81,19 +74,15 @@
         --%>
         <table>
          <tr>
-            <th>Comentarios realizados</th>
+            <th><b>Comentarios realizados</b></th>
         </tr>
-        
         <% for(Comentario cm : comentarios){ %>
-        
         <tr>
             <th>
                 <%= cm.getTexto() %>
             </th>
         </tr>
-        
         <%}%>
-        
         </table>
         
     </body>
