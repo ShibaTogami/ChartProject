@@ -39,7 +39,7 @@
                 <%
                     for (int j = 0; j < 6; j++) {
                 %>
-                <td><a href="perfilServlet?user=<%=usuarios[i]%>"><%= usuarios[i].getNickname()%></a></td>
+                <td><%= usuarios[i].getNickname()%></td>
                     <%
                         }
 
