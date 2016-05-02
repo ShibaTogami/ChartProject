@@ -72,6 +72,10 @@ public class NuevoProyectoServlet extends HttpServlet {
             rd.forward(request, response);
         } else {
             //Redirigir al auxiliar servlet
+            RequestDispatcher rd;
+            
+            rd = getServletContext().getRequestDispatcher("/auxiliarServlet");
+            rd.forward(request, response);
         }
     }
 
