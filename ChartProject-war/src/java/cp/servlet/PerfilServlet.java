@@ -27,7 +27,7 @@ import javax.servlet.http.HttpSession;
  *
  * @author Sergio
  */
-@WebServlet(name = "PerfilServlet", urlPatterns = {"/PerfilServlet"})
+@WebServlet(name = "PerfilServlet", urlPatterns = {"/perfilServlet"})
 public class PerfilServlet extends HttpServlet {
 
     /**
