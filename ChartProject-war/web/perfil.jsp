@@ -30,7 +30,7 @@
         Miembro desde: <%= user.getFechaRegistro()%><br/>
         Ultima conexion: <%= user.getUltimaConexion()%> <br/>
         Karma: <%= user.getKarma()%><br/>
-        <a href="/logoutServlet">Logout</a><br/><br/>
+        <a href="/LogoutServlet">Logout</a><br/><br/>
             
         
         <%--
