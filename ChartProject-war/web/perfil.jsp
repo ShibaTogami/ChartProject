@@ -43,7 +43,7 @@
         <% for(Proyecto pr : proyectos){ %>
         <tr>
             <td>
-                <a href="/proyectoServlet?idProyecto=<%= pr.getIdProyecto() %>"><%= pr.getNombre() %></a>
+                <a href="proyectoServlet?idProyecto=<%= pr.getIdProyecto() %>"><%= pr.getNombre() %></a>
             </td>
         </tr>
         <%}%>
@@ -60,7 +60,7 @@
             <% for(Proyecto pr : lidera){ %>       
             <tr>
                 <td>
-                    <a href="/proyectoServlet?idProyecto=<%= pr.getIdProyecto() %>"><%= pr.getNombre() %></a>
+                    <a href="proyectoServlet?idProyecto=<%= pr.getIdProyecto() %>"><%= pr.getNombre() %></a>
                 </td>
             </tr>   
             <%}%>
