@@ -10,12 +10,12 @@
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <%
-    if(request.getAttribute("usuario") == null) {
+    if(session.getAttribute("usuario") == null) {
         RequestDispatcher rd = getServletContext().getRequestDispatcher("/index.jsp");
         rd.forward(request, response);
     }
     
-    Usuario usuario = (Usuario) request.getAttribute("usuario");
+    Usuario usuario = (Usuario) session.getAttribute("usuario");
     Collection<Proyecto> proyectos = usuario.getProyectoCollection();
     %>
 

@@ -39,4 +39,11 @@ public class ProyectoFacade extends AbstractFacade<Proyecto> {
        return (Proyecto)q.getSingleResult();
     }
     
+    public BigDecimal findMaxId() {
+        Query q;
+        
+        q = em.createQuery("select max(p.idProyecto) from Proyecto p");
+        return (BigDecimal)q.getSingleResult();
+    }
+    
 }
