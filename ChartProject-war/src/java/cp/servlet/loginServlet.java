@@ -41,10 +41,10 @@ public class loginServlet extends HttpServlet {
         String usuario = request.getParameter("usuario");
         String password = request.getParameter("password");
         HttpSession sesion = request.getSession();
-        RequestDispatcher rd;
+        RequestDispatcher rd = null;
         boolean caracteres = true;
 
-        //System.err.println("entro!!!!!!");
+        
         //comprobaremos si el password tiene caracteres que podria crear problemas
         //de seguridad
         for (char aux : password.toCharArray()) {
