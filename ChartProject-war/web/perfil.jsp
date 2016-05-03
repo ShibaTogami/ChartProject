@@ -30,21 +30,21 @@
         Miembro desde: <%= user.getFechaRegistro()%><br/>
         Ultima conexion: <%= user.getUltimaConexion()%> <br/>
         Karma: <%= user.getKarma()%><br/>
-        <a href="/logoutServlet">Logout</a><br/><br/>
+        <a href="logoutServlet">Logout</a><br/><br/>
             
         
         <%--
             Muestro los proyectos en los que está involucrado
         --%>
-        <table>
+        <table border="1">
         <tr>
             <th><b>Proyectos</b></th>
         </tr>
         <% for(Proyecto pr : proyectos){ %>
         <tr>
-            <th>
+            <td>
                 <a href="/proyectoServlet?idProyecto=<%= pr.getIdProyecto() %>"><%= pr.getNombre() %></a>
-            </th>
+            </td>
         </tr>
         <%}%>
          </table><br/>
@@ -53,15 +53,15 @@
             Muestro los proyectos que lidera, en el caso de que lidere alguno
         --%>
         <% if(!lidera.isEmpty()){ %>
-            <table>
+            <table border="1">
             <tr>
                 <th><b>Lidera</b></th>
             </tr>
             <% for(Proyecto pr : lidera){ %>       
             <tr>
-                <th>
+                <td>
                     <a href="/proyectoServlet?idProyecto=<%= pr.getIdProyecto() %>"><%= pr.getNombre() %></a>
-                </th>
+                </td>
             </tr>   
             <%}%>
             </table>
