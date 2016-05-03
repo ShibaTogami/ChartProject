@@ -1,0 +1,6 @@
+tree ee26f6623512e61b33bc48724568d2867cd33100
+parent bd26c9214257e8fb6b6d3a902829fd8910438ee7
+author pablo <pablo@DESKTOP-BAUIIMG> 1462113202 +0200
+committer pablo <pablo@DESKTOP-BAUIIMG> 1462113202 +0200
+
+ProyectoServlet añadido. Cambios en ProyectoFacade para realizar una NamedQuery.
