@@ -56,7 +56,7 @@ public class recuperarContrasenaServlet extends HttpServlet {
        }
        else if (respuesta!=null)
        {
-           
+           user = (Usuario)sesion.getAttribute("usuario");
            if (user.getRespuesta().equals(respuesta)) //si se acierta con la respuesta
            {
                rd = this.getServletContext().getRequestDispatcher("/nuevaContrasena.jsp");

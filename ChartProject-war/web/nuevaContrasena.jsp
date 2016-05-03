@@ -15,8 +15,8 @@
     <%HttpSession sesion = request.getSession();
     Usuario usuario = (Usuario)sesion.getAttribute("usuario");%>
     <body>
-        <%String error = session.getAttribute("error");
-        if (error.equals("Passwords diferentes"))
+        <%String error = (String)session.getAttribute("error");
+        if (error!=null && error.equals("Passwords diferentes"))
         {%>
         <h2> Error: Contraseñas Diferentes.</h2>    
         <%}%>
