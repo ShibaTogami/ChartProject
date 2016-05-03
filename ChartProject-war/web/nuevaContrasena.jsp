@@ -4,6 +4,7 @@
     Author     : shiba
 --%>
 
+<%@page import="cp.entity.Usuario"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <html>
@@ -12,9 +13,14 @@
         <title>Chart Project (Escoger Nueva Contraseña)</title>
     </head>
     <%HttpSession sesion = request.getSession();
-    String usuario = (String)sesion.getAttribute("usuario");%>
+    Usuario usuario = (Usuario)sesion.getAttribute("usuario");%>
     <body>
-        Escoja una nueva contrase&ntilde;a para el usuario <%=usuario%>:
+        <%String error = session.getAttribute("error");
+        if (error.equals("Passwords diferentes"))
+        {%>
+        <h2> Error: Contraseñas Diferentes.</h2>    
+        <%}%>
+        Escoja una nueva contrase&ntilde;a para el usuario <%=usuario.getNickname()%>:
         <br/>
         <form action="cambiarPasswordServlet" method="post">
             <input type="password" name="pass1"/>

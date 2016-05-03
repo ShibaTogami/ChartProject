@@ -5,14 +5,18 @@
  */
 package cp.servlet;
 
+import cp.ejb.UsuarioFacade;
+import cp.entity.Usuario;
 import java.io.IOException;
 import java.io.PrintWriter;
+import javax.ejb.EJB;
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 /**
  *
@@ -20,6 +24,9 @@ import javax.servlet.http.HttpServletResponse;
  */
 @WebServlet(name = "cambiarPasswordServlet", urlPatterns = {"/cambiarPasswordServlet"})
 public class cambiarPasswordServlet extends HttpServlet {
+
+    @EJB
+    private UsuarioFacade usuarioFacade;
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -32,16 +39,21 @@ public class cambiarPasswordServlet extends HttpServlet {
      */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
+        HttpSession sesion = request.getSession();
         String pass1 = request.getParameter("pass1");
         String pass2 = request.getParameter("pass2");
         RequestDispatcher rd = null;
         if (!pass1.equals(pass2)) //si son diferentes vuelta a la selección de contraseña
         {
+            sesion.setAttribute("error", "Passwords diferentes");
             rd = this.getServletContext().getRequestDispatcher("/nuevaContrasena.jsp");
         }
         else //si coinciden se cambia
         {
-            //cambiar aquí la contraseña al usuario tanto en la sesion como en la BD
+            //cambiamos la contraseña al usuario tanto en la sesion como en la BD
+            Usuario user = (Usuario)sesion.getAttribute("usuario");
+            user.setPassword(pass1);
+            usuarioFacade.edit(user);
             rd = this.getServletContext().getRequestDispatcher("/principal.jsp");
         }
         rd.forward(request, response);

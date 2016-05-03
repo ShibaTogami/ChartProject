@@ -4,6 +4,7 @@
     Author     : shiba
 --%>
 
+<%@page import="cp.entity.Usuario"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <html>
@@ -13,7 +14,7 @@
     </head>
     <body>
         <%HttpSession sesion = request.getSession();
-        String usuario =(String) sesion.getAttribute("usuario");
+        Usuario usuario =(Usuario) sesion.getAttribute("usuario");
         if (usuario == null)
         {%>
         <form action="recuperarContrasenaServlet" method="post">
@@ -23,7 +24,7 @@
         </form>
         <%} else {%>
         <form action="recuperarContrasenaServlet" method="post">
-            <br/>Introduzca la respuesta a la pregunta secreta: "<%=usuario%>"
+            <br/>Introduzca la respuesta a la pregunta secreta: "<%=usuario.getPregunta()%>"
             <br/><input type="text" name="respuesta"/>
             <br/><input type="submit" value="enviar">
         </form>

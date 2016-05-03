@@ -5,8 +5,11 @@
  */
 package cp.servlet;
 
+import cp.ejb.UsuarioFacade;
+import cp.entity.Usuario;
 import java.io.IOException;
 import java.io.PrintWriter;
+import javax.ejb.EJB;
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -22,6 +25,9 @@ import javax.servlet.http.HttpSession;
 @WebServlet(name = "recuperarContrasenaServlet", urlPatterns = {"/recuperarContrasenaServlet"})
 public class recuperarContrasenaServlet extends HttpServlet {
 
+    @EJB
+    private UsuarioFacade usuarioFacade;
+
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
      * methods.
@@ -36,17 +42,22 @@ public class recuperarContrasenaServlet extends HttpServlet {
        String usuario = request.getParameter("usuario");
        String respuesta = request.getParameter("respuesta");
        HttpSession sesion = request.getSession();
+       Usuario user = null;
+       if (usuario!=null)
+       {
+            user = usuarioFacade.getUsuarioPorNickname(usuario);
+       }
        RequestDispatcher rd = null;
         //primero tratamos si es la vez que se invoca el usuario para obtener la respuesta
        if (usuario!=null)
        {
-           sesion.setAttribute("usuario", usuario); //pasamos usuario
+           sesion.setAttribute("usuario", user); //pasamos usuario
            rd = this.getServletContext().getRequestDispatcher("/recuperarContrasena.jsp"); //redirigimos para obtener respuesta
        }
        else if (respuesta!=null)
        {
-           usuario = (String)sesion.getAttribute("usuario");
-           if (usuario.equals(respuesta)) //si se acierta con la respuesta
+           
+           if (user.getRespuesta().equals(respuesta)) //si se acierta con la respuesta
            {
                rd = this.getServletContext().getRequestDispatcher("/nuevaContrasena.jsp");
            }
