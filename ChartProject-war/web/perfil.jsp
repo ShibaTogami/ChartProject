@@ -68,7 +68,7 @@
         <%}else{%>
             No lidera ningún proyecto
         <%}%>
-        <br/><br/>
+        <br/>
         <%--
             Muestro los comentarios realizados por el usuario
         --%>
@@ -78,12 +78,18 @@
         </tr>
         <% for(Comentario cm : comentarios){ %>
         <tr>
-            <th>
+            <td>
                 <%= cm.getTexto() %>
-            </th>
+            </td>
         </tr>
         <%}%>
         </table>
-        
+        <%            
+            if(comentarios.isEmpty()){
+        %>
+        El usuario aun no ha comentado.
+        <%}%>
+        </br></br>
+        <a href="principal.jsp">Volver a principal</a>
     </body>
 </html>
