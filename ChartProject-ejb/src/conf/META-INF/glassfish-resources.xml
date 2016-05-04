@@ -10,5 +10,5 @@
         <property name="URL" value="jdbc:oracle:thin:@localhost:1521:XE"/>
         <property name="driverClass" value="oracle.jdbc.OracleDriver"/>
     </jdbc-connection-pool>
-    <jdbc-resource enabled="true" jndi-name="java:module/jdbc.grupo4" object-type="user" pool-name="oracle-thin_XE_grupo4Pool"/>
+    <jdbc-resource enabled="true" jndi-name="jbdc/grupo4" object-type="user" pool-name="oracle-thin_XE_grupo4Pool"/>
 </resources>

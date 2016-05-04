@@ -13,6 +13,7 @@ import java.io.PrintWriter;
 import java.math.BigDecimal;
 import java.util.Collection;
 import java.util.Date;
+import java.util.StringTokenizer;
 import javax.ejb.EJB;
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
@@ -46,6 +47,8 @@ public class NuevoProyectoServlet extends HttpServlet {
         HttpSession session = request.getSession();
         
         if(request.getAttribute("nombreProyecto") != null && session.getAttribute("usuario") != null) {
+            System.out.println("HOLAAAA");
+            System.out.println(proyectoFacade.findMaxId());
             long idaux = proyectoFacade.findMaxId().longValue();
             idaux++;
             BigDecimal id = BigDecimal.valueOf(idaux);
@@ -53,6 +56,10 @@ public class NuevoProyectoServlet extends HttpServlet {
             Proyecto proyecto = new Proyecto(id);
             
             if(request.getAttribute("fechaInicioProyecto") != null) {
+                Date date = new Date();
+                StringTokenizer token = new StringTokenizer((String) request.getAttribute("fechaInicioProyecto"), "/");
+                
+                
                 proyecto.setFechaInicio((Date) request.getAttribute("fechaInicioProyecto"));
             }
             

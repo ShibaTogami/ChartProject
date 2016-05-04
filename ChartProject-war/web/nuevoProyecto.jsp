@@ -42,9 +42,9 @@
             %>
             </br>
             A&ntilde;adir participante: <input type="text" maxlength="30" size="20" name="nuevoParticipanteProyecto"></br>
-            <input type="submit" value="Anadir" name="boton">
+            <input type="submit" value="Anadir" name="boton"></br>
             
-            Descripci&oacu&oacute;n: </br>
+            Descripci&oacute;n: </br>
             <textarea name="descripcionProyecto" rows="100" cols="30">
             <%if(request.getAttribute("descripcionProyecto") != null) {%>
             <%=request.getAttribute("descripcionProyecto")%>
