@@ -19,17 +19,15 @@
         if (sesion.getAttribute("error")!=null) //si venimos de un error
         {%>
         <br/><h3>Se ha producido un error</h3>
-        <% if (sesion.getAttribute("error").equals("password"))
-            {%>
-            <br/><h3>El password es diferente de su repetici&oacute;n</h3>
-            <%} else if (sesion.getAttribute("error").equals("email"))
-                {%>
+        <%  if (sesion.getAttribute("error").equals("password")) {%>
+                <br/><h3>El password es diferente de su repetici&oacute;n</h3>
+        <%} else if (sesion.getAttribute("error").equals("email")) {%>
                 <br/><h3>El e-mail es diferente de su repetici&oacute;n</h3>       
-                <%}
-            else
-            {%>
+        <%} else if (sesion.getAttribute("error").equals("email y password")) {%>
                 <br/><h3>Tanto el e-mail como el password difieren de sus repeticiones</h3>
-            <%}
+        <%} else if (sesion.getAttribute("error").equals("usuario ya creado")){%>
+                <br/><h3>Ese usuario ya ha sido creado, pruebe con otro nickname</h3>
+        <%}
         sesion.removeAttribute("error");
         }%>
         <%if(sesion.getAttribute("usuarioTemporal")!=null)

@@ -29,10 +29,10 @@ public class UsuarioFacade extends AbstractFacade<Usuario> {
     public UsuarioFacade() {
         super(Usuario.class);
     }
-     public Usuario getUsuarioPorNickname(String usuario) {
+     public Object getUsuarioPorNickname(String usuario) {
         Query q = em.createNamedQuery("Usuario.findByNickname");
         q.setParameter("nickname", usuario);
         
-        return (Usuario)q.getSingleResult();
+        return q.getResultList().get(0);
     }
 }
