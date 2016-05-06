@@ -26,12 +26,6 @@
         <%if (request.getAttribute("nombreProyecto") != null) {%>
         <%=request.getAttribute("nombreProyecto")%> 
         <%}%>"></br>              
-        Fecha de inicio: <input type="text" maxlength="10" name="fechaInicioProyecto" value="
-        <%if (request.getAttribute("fechaInicioProyecto") != null) {%>
-        <%=request.getAttribute("fechaInicioProyecto")%>
-        <%} else {%>
-        dd/mm/aaaa
-        <% }%>"></br>
         Participantes: 
         <%
             if (participantes != null) {

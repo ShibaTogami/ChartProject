@@ -47,18 +47,14 @@ public class NuevoProyectoServlet extends HttpServlet {
         HttpSession session = request.getSession();
         
         if(request.getAttribute("nombreProyecto") != null && session.getAttribute("usuario") != null) {
-            System.out.println("HOLAAAA");
-            System.out.println(proyectoFacade.findMaxId());
             long idaux = proyectoFacade.findMaxId().longValue();
             idaux++;
             BigDecimal id = BigDecimal.valueOf(idaux);
            
             Proyecto proyecto = new Proyecto(id);
-            
+            proyecto.setLider((Usuario) session.getAttribute("usuario"));
             if(request.getAttribute("fechaInicioProyecto") != null) {
                 Date date = new Date();
-                StringTokenizer token = new StringTokenizer((String) request.getAttribute("fechaInicioProyecto"), "/");
-                
                 
                 proyecto.setFechaInicio((Date) request.getAttribute("fechaInicioProyecto"));
             }
