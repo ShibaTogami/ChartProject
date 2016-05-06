@@ -13,6 +13,7 @@ import java.io.PrintWriter;
 import java.math.BigDecimal;
 import java.util.Collection;
 import java.util.Date;
+import java.util.StringTokenizer;
 import javax.ejb.EJB;
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
@@ -51,8 +52,10 @@ public class NuevoProyectoServlet extends HttpServlet {
             BigDecimal id = BigDecimal.valueOf(idaux);
            
             Proyecto proyecto = new Proyecto(id);
-            
+            proyecto.setLider((Usuario) session.getAttribute("usuario"));
             if(request.getAttribute("fechaInicioProyecto") != null) {
+                Date date = new Date();
+                
                 proyecto.setFechaInicio((Date) request.getAttribute("fechaInicioProyecto"));
             }
             
