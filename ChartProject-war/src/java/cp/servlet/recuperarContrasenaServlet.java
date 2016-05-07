@@ -45,7 +45,7 @@ public class recuperarContrasenaServlet extends HttpServlet {
        Usuario user = null;
        if (usuario!=null)
        {
-            user = (Usuario) usuarioFacade.getUsuarioPorNickname(usuario);
+            user = usuarioFacade.getUsuarioPorNickname(usuario);
        }
        RequestDispatcher rd = null;
         //primero tratamos si es la vez que se invoca el usuario para obtener la respuesta

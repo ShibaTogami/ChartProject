@@ -42,7 +42,7 @@ public class addToList extends HttpServlet {
         
         List<Usuario> selected = (List<Usuario>)request.getAttribute("seleccion");
         String nombre = (String) request.getAttribute("nombre");
-        selected.add((Usuario) usuarioFacade.getUsuarioPorNickname(nombre));
+        selected.add(usuarioFacade.getUsuarioPorNickname(nombre));
         request.setAttribute("seleccion", selected);
         RequestDispatcher rd;
         rd = this.getServletContext().getRequestDispatcher("/addPersona.jsp");

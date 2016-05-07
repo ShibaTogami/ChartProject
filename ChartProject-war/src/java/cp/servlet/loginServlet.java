@@ -59,7 +59,7 @@ public class loginServlet extends HttpServlet {
             rd = this.getServletContext().getRequestDispatcher("/index.jsp");
         } else //consultamos el pass
         {
-            Usuario user = (Usuario) usuarioFacade.getUsuarioPorNickname(usuario);
+            Usuario user = usuarioFacade.getUsuarioPorNickname(usuario);
 
             if (!user.getPassword().equals(password)) //si no corresponden
             {
