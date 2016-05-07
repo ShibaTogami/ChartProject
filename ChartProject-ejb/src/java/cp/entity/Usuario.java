@@ -94,24 +94,24 @@ public class Usuario implements Serializable {
     @Size(max = 100)
     @Column(name = "RESPUESTA")
     private String respuesta;
-    @ManyToMany(mappedBy = "usuarioCollection", fetch = FetchType.LAZY)
+    @ManyToMany(mappedBy = "usuarioCollection", fetch = FetchType.EAGER)
     private Collection<Proyecto> proyectoCollection;
-    @ManyToMany(mappedBy = "usuarioCollection", fetch = FetchType.LAZY)
+    @ManyToMany(mappedBy = "usuarioCollection", fetch = FetchType.EAGER)
     private Collection<Mensaje> mensajeCollection;
     @JoinTable(name = "USUARIO_TAREA", joinColumns = {
         @JoinColumn(name = "USUARIO_NICKNAME", referencedColumnName = "NICKNAME")}, inverseJoinColumns = {
         @JoinColumn(name = "TAREA_ID_TAREA", referencedColumnName = "ID_TAREA"),
         @JoinColumn(name = "TAREA_ID_PROYECTO", referencedColumnName = "ID_PROYECTO")})
-    @ManyToMany(fetch = FetchType.LAZY)
+    @ManyToMany(fetch = FetchType.EAGER)
     private Collection<Tarea> tareaCollection;
     @JoinTable(name = "ENVIANDO", joinColumns = {
         @JoinColumn(name = "USUARIO_NICKNAME", referencedColumnName = "NICKNAME")}, inverseJoinColumns = {
         @JoinColumn(name = "MENSAJE_ID_MENSAJE", referencedColumnName = "ID_MENSAJE")})
-    @ManyToMany(fetch = FetchType.LAZY)
+    @ManyToMany(fetch = FetchType.EAGER)
     private Collection<Mensaje> mensajeCollection1;
-    @OneToMany(mappedBy = "nickname", fetch = FetchType.LAZY)
+    @OneToMany(mappedBy = "nickname", fetch = FetchType.EAGER)
     private Collection<Comentario> comentarioCollection;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "lider", fetch = FetchType.LAZY)
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "lider", fetch = FetchType.EAGER)
     private Collection<Proyecto> proyectoCollection1;
 
     public Usuario() {

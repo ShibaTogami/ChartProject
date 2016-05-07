@@ -45,16 +45,24 @@ public class Comentario implements Serializable {
     @Size(max = 500)
     @Column(name = "TEXTO")
     private String texto;
+    @JoinColumn(name = "ID_PROYECTO2", referencedColumnName = "ID_PROYECTO")
+    @ManyToOne(fetch = FetchType.EAGER)
+    private Proyecto idProyecto2;
     @JoinColumn(name = "ID_PROYECTO1", referencedColumnName = "ID_PROYECTO")
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.EAGER)
     private Proyecto idProyecto1;
+    @JoinColumns({
+        @JoinColumn(name = "ID_TAREA1", referencedColumnName = "ID_TAREA"),
+        @JoinColumn(name = "ID_PROYECTO3", referencedColumnName = "ID_PROYECTO")})
+    @ManyToOne(fetch = FetchType.EAGER)
+    private Tarea tarea;
     @JoinColumns({
         @JoinColumn(name = "ID_TAREA", referencedColumnName = "ID_TAREA"),
         @JoinColumn(name = "ID_PROYECTO", referencedColumnName = "ID_PROYECTO")})
-    @ManyToOne(fetch = FetchType.LAZY)
-    private Tarea tarea;
+    @ManyToOne(fetch = FetchType.EAGER)
+    private Tarea tarea1;
     @JoinColumn(name = "NICKNAME", referencedColumnName = "NICKNAME")
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.EAGER)
     private Usuario nickname;
 
     public Comentario() {
@@ -80,6 +88,14 @@ public class Comentario implements Serializable {
         this.texto = texto;
     }
 
+    public Proyecto getIdProyecto2() {
+        return idProyecto2;
+    }
+
+    public void setIdProyecto2(Proyecto idProyecto2) {
+        this.idProyecto2 = idProyecto2;
+    }
+
     public Proyecto getIdProyecto1() {
         return idProyecto1;
     }
@@ -94,6 +110,14 @@ public class Comentario implements Serializable {
 
     public void setTarea(Tarea tarea) {
         this.tarea = tarea;
+    }
+
+    public Tarea getTarea1() {
+        return tarea1;
+    }
+
+    public void setTarea1(Tarea tarea1) {
+        this.tarea1 = tarea1;
     }
 
     public Usuario getNickname() {

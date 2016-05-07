@@ -24,7 +24,7 @@
         <br/>
         <form action="cambiarPasswordServlet" method="post">
             <input type="password" name="pass1"/>
-            <br/> Repita la nueva contra&ntilde;a:
+            <br/> Repita la nueva contrase&ntilde;a:
             <br/><input type="password" name="pass2"/>
             <input type="submit" value="enviar"/>
         </form>

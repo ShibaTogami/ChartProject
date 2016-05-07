@@ -72,14 +72,16 @@ public class Proyecto implements Serializable {
     @JoinTable(name = "PARTICIPANTE_PROYECTO", joinColumns = {
         @JoinColumn(name = "PROYECTO_ID_PROYECTO", referencedColumnName = "ID_PROYECTO")}, inverseJoinColumns = {
         @JoinColumn(name = "USUARIO_NICKNAME", referencedColumnName = "NICKNAME")})
-    @ManyToMany(fetch = FetchType.LAZY)
+    @ManyToMany(fetch = FetchType.EAGER)
     private Collection<Usuario> usuarioCollection;
-    @OneToMany(mappedBy = "idProyecto1", fetch = FetchType.LAZY)
+    @OneToMany(mappedBy = "idProyecto2", fetch = FetchType.EAGER)
     private Collection<Comentario> comentarioCollection;
+    @OneToMany(mappedBy = "idProyecto1", fetch = FetchType.EAGER)
+    private Collection<Comentario> comentarioCollection1;
     @JoinColumn(name = "LIDER", referencedColumnName = "NICKNAME")
-    @ManyToOne(optional = false, fetch = FetchType.LAZY)
+    @ManyToOne(optional = false, fetch = FetchType.EAGER)
     private Usuario lider;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "proyecto", fetch = FetchType.LAZY)
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "proyecto", fetch = FetchType.EAGER)
     private Collection<Tarea> tareaCollection;
 
     public Proyecto() {
@@ -153,6 +155,15 @@ public class Proyecto implements Serializable {
 
     public void setComentarioCollection(Collection<Comentario> comentarioCollection) {
         this.comentarioCollection = comentarioCollection;
+    }
+
+    @XmlTransient
+    public Collection<Comentario> getComentarioCollection1() {
+        return comentarioCollection1;
+    }
+
+    public void setComentarioCollection1(Collection<Comentario> comentarioCollection1) {
+        this.comentarioCollection1 = comentarioCollection1;
     }
 
     public Usuario getLider() {

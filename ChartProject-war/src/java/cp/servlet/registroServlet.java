@@ -73,7 +73,11 @@ public class registroServlet extends HttpServlet {
             rd = this.getServletContext().getRequestDispatcher("/registro.jsp");
         }
         sesion.setAttribute("usuarioTemporal", usuarioTemporal);
-
+        if (usuarioFacade.getUsuarioPorNickname(usuario)!=null) //si el usuario ya ha sido registrado
+        {
+            sesion.setAttribute("error", "Usuario ya registrado");
+            rd = this.getServletContext().getRequestDispatcher("/registro.jsp");
+        }
         //si no ha habido ningun error
         if (sesion.getAttribute("error") == null) {
             //convertimos usuario temporal en usuario permanente y redirigimos a perfilServlet

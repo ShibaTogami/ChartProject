@@ -65,12 +65,14 @@ public class Tarea implements Serializable {
     private String estado;
     @Column(name = "PRIORIDAD")
     private BigInteger prioridad;
-    @ManyToMany(mappedBy = "tareaCollection", fetch = FetchType.LAZY)
+    @ManyToMany(mappedBy = "tareaCollection", fetch = FetchType.EAGER)
     private Collection<Usuario> usuarioCollection;
-    @OneToMany(mappedBy = "tarea", fetch = FetchType.LAZY)
+    @OneToMany(mappedBy = "tarea", fetch = FetchType.EAGER)
     private Collection<Comentario> comentarioCollection;
+    @OneToMany(mappedBy = "tarea1", fetch = FetchType.EAGER)
+    private Collection<Comentario> comentarioCollection1;
     @JoinColumn(name = "ID_PROYECTO", referencedColumnName = "ID_PROYECTO", insertable = false, updatable = false)
-    @ManyToOne(optional = false, fetch = FetchType.LAZY)
+    @ManyToOne(optional = false, fetch = FetchType.EAGER)
     private Proyecto proyecto;
 
     public Tarea() {
@@ -156,6 +158,15 @@ public class Tarea implements Serializable {
 
     public void setComentarioCollection(Collection<Comentario> comentarioCollection) {
         this.comentarioCollection = comentarioCollection;
+    }
+
+    @XmlTransient
+    public Collection<Comentario> getComentarioCollection1() {
+        return comentarioCollection1;
+    }
+
+    public void setComentarioCollection1(Collection<Comentario> comentarioCollection1) {
+        this.comentarioCollection1 = comentarioCollection1;
     }
 
     public Proyecto getProyecto() {

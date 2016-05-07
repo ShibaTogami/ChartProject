@@ -31,6 +31,8 @@ public class ProyectoFacade extends AbstractFacade<Proyecto> {
         super(Proyecto.class);
     }
     
+    
+
     public Proyecto findByIdProyecto (BigDecimal idProyecto) {
         Query q;
 
@@ -52,4 +54,3 @@ public class ProyectoFacade extends AbstractFacade<Proyecto> {
     }
     
 }
- 

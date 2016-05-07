@@ -14,7 +14,7 @@ import javax.validation.constraints.NotNull;
 
 /**
  *
- * @author nacho
+ * @author shiba
  */
 @Embeddable
 public class TareaPK implements Serializable {
