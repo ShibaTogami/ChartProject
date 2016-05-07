@@ -18,6 +18,7 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 /**
  *
@@ -40,6 +41,7 @@ public class AuxiliarServlet extends HttpServlet {
      */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
+        HttpSession session = request.getSession();
         if(request.getParameter("boton") != null) {
             if(request.getParameter("boton").equals("Anadir")) {
                 request.setAttribute("nombreProyecto", request.getParameter("nombreProyecto"));
@@ -49,13 +51,15 @@ public class AuxiliarServlet extends HttpServlet {
                 if (request.getAttribute("participantes") != null) {
                     participantes = (List<Usuario>) request.getAttribute("participantes");
                 }
-                //Sacamos el usuario de la BD y lo insertamos (si existe) en la lista de participantes
+                //Sacamos el usuario de la BD y lo insertamos (si existe) en la lista de participantes (y en la BD)
                 if (request.getParameter("nuevoParticipanteProyecto") != null) {
                     Usuario usuario = (Usuario) usuarioFacade.getUsuarioPorNickname(request.getParameter("nuevoParticipanteProyecto"));
                     if(usuario != null) {
                         participantes.add(usuario);
                     }
                 }
+                session.setAttribute("participantes", participantes);
+                //Lo pasamos por sesion porque al pasarlo a un jsp, luego si lo pasamos a un sevlet se pierde.
                 RequestDispatcher rd;
                 rd = getServletContext().getRequestDispatcher("/nuevoProyecto.jsp");
                 rd.forward(request, response);

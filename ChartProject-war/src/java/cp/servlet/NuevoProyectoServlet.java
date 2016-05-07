@@ -6,6 +6,7 @@
 package cp.servlet;
 
 import cp.ejb.ProyectoFacade;
+import cp.ejb.UsuarioFacade;
 import cp.entity.Proyecto;
 import cp.entity.Usuario;
 import java.io.IOException;
@@ -31,6 +32,9 @@ import javax.servlet.http.HttpSession;
 public class NuevoProyectoServlet extends HttpServlet {
 
     @EJB
+    private UsuarioFacade usuarioFacade;
+
+    @EJB
     private ProyectoFacade proyectoFacade;
 
     /**
@@ -53,14 +57,14 @@ public class NuevoProyectoServlet extends HttpServlet {
            
             Proyecto proyecto = new Proyecto(id);
             proyecto.setLider((Usuario) session.getAttribute("usuario"));
-            if(request.getAttribute("fechaInicioProyecto") != null) {
-                Date date = new Date();
+            Date date = new Date();
                 
-                proyecto.setFechaInicio((Date) request.getAttribute("fechaInicioProyecto"));
-            }
+            proyecto.setFechaInicio(date);
             
-            if(request.getAttribute("participantes") != null) {
-                proyecto.setUsuarioCollection((Collection<Usuario>) request.getAttribute("participantes"));
+            proyecto.setNombre((String) request.getAttribute("nombreProyecto"));
+            if(session.getAttribute("participantes") != null) {
+                proyecto.setUsuarioCollection((Collection<Usuario>) session.getAttribute("participantes"));
+                //ATENTO AQUÍ
             }
             
             if(request.getAttribute("descripcionProyecto") != null) {
@@ -68,10 +72,33 @@ public class NuevoProyectoServlet extends HttpServlet {
             }
             
             this.proyectoFacade.create(proyecto);
+            request.setAttribute("idProyecto", id);
+            
+            
+            
+            Usuario usuario = (Usuario) session.getAttribute("usuario");
+            
+            Collection<Usuario> participantes = proyecto.getUsuarioCollection();
+            
+            participantes.add(usuario);
+            proyecto.setUsuarioCollection(participantes);
+            
+            for(Usuario usu: participantes) {
+                Collection<Proyecto> participando = usu.getProyectoCollection();
+                participando.add(proyecto);
+                usu.setProyectoCollection(participando);
+                usuarioFacade.edit(usu);
+            }
+            
+            Collection<Proyecto> liderando = usuario.getProyectoCollection1();
+            liderando.add(proyecto);
+            usuario.setProyectoCollection1(liderando);
+            usuarioFacade.edit(usuario);
+            session.setAttribute("participantes", null); //Lo borramos para los siguientes proyectos.
             
             RequestDispatcher rd;
             
-            rd = getServletContext().getRequestDispatcher("/proyectoServlet");
+            rd = getServletContext().getRequestDispatcher("/proyectoServlet?id=" + id);
             rd.forward(request, response);
         } else {
             //Redirigir al auxiliar servlet

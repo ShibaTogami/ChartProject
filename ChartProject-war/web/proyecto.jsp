@@ -29,8 +29,8 @@
         Participantes:<br/>
         <table>
             <%
-                Usuario[] usuarios = (Usuario[]) proyecto.getUsuarioCollection().toArray();
-                int tsize = usuarios.length;
+                List<Usuario> usuarios = (List<Usuario>) proyecto.getUsuarioCollection();
+                int tsize = usuarios.size();
                 for (int i = 0; i < tsize / 6 + 1; i++) {
             %>
 
@@ -39,7 +39,7 @@
                 <%
                     for (int j = 0; j < 6; j++) {
                 %>
-                <td><%= usuarios[i].getNickname()%></td>
+                <td><%= usuarios.get(i).getNickname()%></td>
                     <%
                         }
 
@@ -57,11 +57,11 @@
         Comentarios:<br/>
         <%
 
-            Comentario[] comentarios = (Comentario[]) proyecto.getComentarioCollection().toArray();
+            List<Comentario> comentarios = (List<Comentario>) proyecto.getComentarioCollection();
 
         %>
         <table>
-            <%                for (int i = 0; i < comentarios.length; i++) {
+            <%                for (int i = 0; i < comentarios.size(); i++) {
 
             %>
 
@@ -69,12 +69,11 @@
 
                 <td>
 
-                    <%                        comentarios[i].getNickname().getNickname();
+                    <%                        comentarios.get(i).getNickname().getNickname();
                     %>
                     <br/>
                     <%
-                        comentarios[i].getTexto();
-
+                        comentarios.get(i).getTexto();
                     %>
 
                 </td>
@@ -88,11 +87,11 @@
 
         Tareas:<br/>
         <%
-            Tarea[] tareas = (Tarea[]) proyecto.getTareaCollection().toArray();
+            List<Tarea> tareas = (List<Tarea>) proyecto.getTareaCollection();
 
         %>
         <table>
-            <%                for (int i = 0; i < tareas.length; i++) {
+            <%                for (int i = 0; i < tareas.size(); i++) {
 
             %>
 
@@ -100,11 +99,11 @@
 
                 <td>
 
-                    <%                        tareas[i].getNombre();
+                    <%                        tareas.get(i).getNombre();
                     %>
                     <br/>
                     <%
-                        tareas[i].getEstado();
+                        tareas.get(i).getEstado();
 
                     %>
 

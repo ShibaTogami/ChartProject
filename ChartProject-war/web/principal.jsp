@@ -4,6 +4,7 @@
     Author     : pablo
 --%>
 
+<%@page import="java.util.List"%>
 <%@page import="java.util.Collection"%>
 <%@page import="cp.entity.Proyecto"%>
 <%@page import="cp.entity.Usuario"%>
@@ -18,7 +19,7 @@
     }
     
     Usuario usuario = (Usuario) session.getAttribute("usuario");
-    Collection<Proyecto> proyectos = usuario.getProyectoCollection();
+    List<Proyecto> proyectos = (List<Proyecto>)usuario.getProyectoCollection();
     %>
 
 <html>
@@ -33,8 +34,8 @@
                 int i = 0;
                 for (Proyecto proyecto: proyectos) {
                     %>
-                    <a href="ProyectoServlet?idProyecto=<%=proyecto.getIdProyecto()%>"><%=proyecto.getNombre()%> </a>
-                    &nsbp;
+                    <a href="proyectoServlet?idProyecto=<%=proyecto.getIdProyecto()%>"><%=proyecto.getNombre()%> </a>
+                    &nbsp;
                     
                     <%
                         if ((i % 4) == 0) {

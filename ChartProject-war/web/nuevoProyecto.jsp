@@ -10,8 +10,9 @@
 <!DOCTYPE html>
 <%//bump for interest
     List<Usuario> participantes = null;
-    if(request.getAttribute("participantes") != null) {
-        participantes = (List<Usuario>) request.getAttribute("participantes");
+    HttpSession sesion = request.getSession();
+    if(sesion.getAttribute("participantes") != null) {
+        participantes = (List<Usuario>) sesion.getAttribute("participantes");
     }
     %>
 <html>
@@ -30,7 +31,7 @@
         <%
             if (participantes != null) {
                 for (Usuario usuario: participantes) {
-                    %><%=usuario.getNickname()%>&nsbp;<%
+                    %><%=usuario.getNickname()%>&nbsp;<%
                 }
             }
             %>

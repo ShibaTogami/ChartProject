@@ -72,28 +72,20 @@ public class registroServlet extends HttpServlet {
             usuarioTemporal.setEmail("");
             rd = this.getServletContext().getRequestDispatcher("/registro.jsp");
         }
-        //comprobamos ahora si el usuario ya está creado.
-        if (usuarioFacade.getUsuarioPorNickname(usuarioTemporal.getNickname())!=null)
-        {//si existe el usuario creado.
-            sesion.setAttribute("error", "usuario ya creado");
-            rd = this.getServletContext().getRequestDispatcher("/registro.jsp");
-        }
-        else {
         sesion.setAttribute("usuarioTemporal", usuarioTemporal);
 
-            //si no ha habido ningun error
-            if (sesion.getAttribute("error") == null) {
-                //convertimos usuario temporal en usuario permanente y redirigimos a perfilServlet
-                usuarioTemporal.setEmail(email);
-                usuarioTemporal.setFechaRegistro(fechaRegistro);
-                usuarioTemporal.setPassword(password);
-                usuarioTemporal.setFechaRegistro(fechaRegistro);
-                usuarioTemporal.setPregunta(preguntaSecreta);
-                usuarioTemporal.setRespuesta(respuestaSecreta);
-                usuarioFacade.create(usuarioTemporal);
-                sesion.setAttribute("usuario", usuarioTemporal);
-                rd = this.getServletContext().getRequestDispatcher("/perfilServlet");
-            }
+        //si no ha habido ningun error
+        if (sesion.getAttribute("error") == null) {
+            //convertimos usuario temporal en usuario permanente y redirigimos a perfilServlet
+            usuarioTemporal.setEmail(email);
+            usuarioTemporal.setFechaRegistro(fechaRegistro);
+            usuarioTemporal.setPassword(password);
+            usuarioTemporal.setFechaRegistro(fechaRegistro);
+            usuarioTemporal.setPregunta(preguntaSecreta);
+            usuarioTemporal.setRespuesta(respuestaSecreta);
+            usuarioFacade.create(usuarioTemporal);
+            sesion.setAttribute("usuario", usuarioTemporal);
+            rd = this.getServletContext().getRequestDispatcher("/perfilServlet");
         }
 
         rd.forward(request, response);

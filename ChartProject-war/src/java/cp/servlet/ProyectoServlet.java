@@ -51,7 +51,7 @@ public class ProyectoServlet extends HttpServlet {
             rd.forward(request, response);
         } else {
             //Mandar a principal
-            RequestDispatcher rd = getServletContext().getRequestDispatcher("/proyecto.jsp");
+            RequestDispatcher rd = getServletContext().getRequestDispatcher("/principal.jsp");
             rd.forward(request, response);
         }
     }
