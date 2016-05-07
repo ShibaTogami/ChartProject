@@ -28,6 +28,7 @@
         <title>Proyectos</title>
     </head>
     <body>
+        <a href="perfilServlet">Perfil de usuario</a></br>
         <a href="nuevoProyecto.jsp">Crear un nuevo proyecto</a>
             <h1>Tus proyectos actuales</h1>
             <%
