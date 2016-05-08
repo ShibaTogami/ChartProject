@@ -46,5 +46,7 @@
                 }
                 
                 %>
+                </br></br>
+                <a href="logoutServlet">Logout</a>
     </body>
 </html>
