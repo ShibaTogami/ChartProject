@@ -15,7 +15,6 @@ import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Date;
-import java.util.List;
 import java.util.StringTokenizer;
 import javax.ejb.EJB;
 import javax.servlet.RequestDispatcher;
@@ -66,7 +65,6 @@ public class NuevoProyectoServlet extends HttpServlet {
             proyecto.setNombre((String) request.getAttribute("nombreProyecto"));
             if(session.getAttribute("participantes") != null) {
                 proyecto.setUsuarioCollection((Collection<Usuario>) session.getAttribute("participantes"));
-                //ATENTO AQUÍ
             }
             
             if(request.getAttribute("descripcionProyecto") != null) {
@@ -81,6 +79,10 @@ public class NuevoProyectoServlet extends HttpServlet {
             Usuario usuario = (Usuario) session.getAttribute("usuario");
             
             Collection<Usuario> participantes = proyecto.getUsuarioCollection();
+            if(participantes == null) {
+                participantes = new ArrayList<Usuario>();
+            }
+            
             
             participantes.add(usuario);
             proyecto.setUsuarioCollection(participantes);
