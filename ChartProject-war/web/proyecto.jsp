@@ -144,7 +144,41 @@
         </table><br/>
 
         Timeline:<br/>
-        en proceso<br/>
+         <%
+            List<Comentario> comentarios2;
+            if((List<Comentario>) request.getAttribute("comentarios2")!= null){
+               comentarios2 = (List<Comentario>) request.getAttribute("comentarios2");
+            }
+            else{
+               comentarios2 = (List<Comentario>) proyecto.getComentarioCollection1();
+            }
+
+
+        %>
+        <table>
+            <%                for(Comentario c : comentarios2){
+
+
+            %>
+
+            <tr>
+
+                <td>
+
+                    <%=
+                        c.getTexto()
+                    %>
+
+                </td>
+
+            </tr>
+
+                             
+                      <%      
+                        }
+            %>
+
+        </table>
         <br/>
         <button><a href="CrearTareaServlet?idProyecto=<%=proyecto.getIdProyecto().toString()%>">añadir tarea</a></button>
         <button><a href="cargaPersonas">añadir persona</a></button>

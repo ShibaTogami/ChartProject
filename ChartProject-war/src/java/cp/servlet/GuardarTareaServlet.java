@@ -5,10 +5,12 @@
  */
 package cp.servlet;
 
+import cp.ejb.ComentarioFacade;
 import cp.ejb.ProyectoFacade;
 import cp.entity.Tarea;
 import cp.entity.TareaPK;
 import cp.ejb.TareaFacade;
+import cp.entity.Comentario;
 import cp.entity.Proyecto;
 import cp.entity.Tarea;
 import cp.entity.TareaPK_;
@@ -20,6 +22,7 @@ import java.math.BigInteger;
 import java.util.Collection;
 import java.util.Date;
 import java.util.Enumeration;
+import java.util.List;
 import javax.ejb.EJB;
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
@@ -40,6 +43,8 @@ public class GuardarTareaServlet extends HttpServlet {
     TareaFacade tareaFacade;
     @EJB
     ProyectoFacade proyectoFacade;
+    @EJB
+    ComentarioFacade comentarioFacade;
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -87,13 +92,32 @@ public class GuardarTareaServlet extends HttpServlet {
 
         if ("".equals(tareaId)|| tareaId == null) {
             this.tareaFacade.create(tarea);
+            Comentario comment = new Comentario();
+            comment.setIdProyecto1(p);
+            comment.setNickname(usuario);
             String str = "El usuario " + usuario.getNickname() + " ha creado la tarea " + tarea.getNombre();
-            request.setAttribute("strTarea", str);
+            comment.setTexto(str);
+            comentarioFacade.create(comment);
+            List<Comentario> aux =(List<Comentario>) p.getComentarioCollection1();
+            aux.add(comment);
+            p.setComentarioCollection1(aux);
+            sesion.setAttribute("Proyecto", p);
+            request.setAttribute("comentarios2", p.getComentarioCollection1());
+            
         } else {
             this.tareaFacade.edit(tarea);
-            String str = "El usuario " + usuario.getNickname() + " ha actualizado la tarea " + tarea.getNombre();
-            request.setAttribute("strTarea", str);
+            Comentario comment = new Comentario();
+            comment.setIdProyecto1(p);
+            comment.setNickname(usuario);
+            String str = "El usuario " + usuario.getNickname() + " ha editado la tarea " + tarea.getNombre();
+            comment.setTexto(str);
+            comentarioFacade.create(comment);
+            List<Comentario> aux =(List<Comentario>) p.getComentarioCollection1();
+            aux.add(comment);
+            p.setComentarioCollection1(aux);
+            sesion.setAttribute("Proyecto", p);
             coleccionProyecto.remove(t);
+            request.setAttribute("comentarios2", p.getComentarioCollection1());
         }
         
         

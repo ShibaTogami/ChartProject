@@ -77,7 +77,17 @@ public class EliminarTareaServlet extends HttpServlet {
         Collection<Tarea> coleccionProyecto = p.getTareaCollection();
         coleccionProyecto.remove(tarea);
         p.setTareaCollection(coleccionProyecto);
+        Comentario comment = new Comentario();
+        comment.setIdProyecto1(p);
+        comment.setNickname(usuario);
+        String str = "El usuario " + usuario.getNickname() + " ha eliminado la tarea " + tarea.getNombre();
+        comment.setTexto(str);
+        comentarioFacade.create(comment);
+        List<Comentario> aux =(List<Comentario>) p.getComentarioCollection1();
+        aux.add(comment);
+        p.setComentarioCollection1(aux);
         sesion.setAttribute("Proyecto", p);
+        request.setAttribute("comentarios2", p.getComentarioCollection1());
 
         RequestDispatcher rd;
         rd = this.getServletContext().getRequestDispatcher("/proyecto.jsp");
