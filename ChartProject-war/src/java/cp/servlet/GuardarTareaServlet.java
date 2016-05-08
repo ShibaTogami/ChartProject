@@ -17,7 +17,9 @@ import java.io.IOException;
 import java.io.PrintWriter;
 import java.math.BigDecimal;
 import java.math.BigInteger;
+import java.util.Collection;
 import java.util.Date;
+import java.util.Enumeration;
 import javax.ejb.EJB;
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
@@ -52,6 +54,7 @@ public class GuardarTareaServlet extends HttpServlet {
             throws ServletException, IOException {
         HttpSession sesion = request.getSession();
         Usuario usuario = (Usuario) sesion.getAttribute("usuario");
+        Proyecto p = (Proyecto) sesion.getAttribute("Proyecto");
 
         String tareaId, proyectoId;
         Tarea tarea;
@@ -88,11 +91,16 @@ public class GuardarTareaServlet extends HttpServlet {
             String str = "El usuario " + usuario.getNickname() + " ha actualizado la tarea " + tarea.getNombre();
             request.setAttribute("strTarea", str);
         }
+        
+        Collection<Tarea> coleccionProyecto = p.getTareaCollection();
+        coleccionProyecto.add(tarea);
+        p.setTareaCollection(coleccionProyecto);
+        sesion.setAttribute("Proyecto", p);
 
         request.setAttribute("tarea", tarea);
 
         RequestDispatcher rd;
-        rd = this.getServletContext().getRequestDispatcher("/proyectoServlet?idProyecto="+proyectoId);
+        rd = this.getServletContext().getRequestDispatcher("/proyecto.jsp");
         rd.forward(request, response);
     }
 
