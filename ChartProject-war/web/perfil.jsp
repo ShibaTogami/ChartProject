@@ -36,7 +36,7 @@
         <%--
             Muestro los proyectos en los que está involucrado
         --%>
-        <% if(proyectos!=null){ %> <%--comprobmaos que la coleccion no es nula--%>
+        <% if(proyectos != null && !proyectos.isEmpty()){ %> <%--comprobmaos que la coleccion no es nula y vacia--%>
         <table border="1">
         <tr>
             <th><b>Proyectos</b></th>
@@ -50,14 +50,14 @@
             <%}%>
          </table><br/>
         <%}else{%>
-        No lidera participa en ning&uacute;n proyecto
+        No lidera participa en ning&uacute;n proyecto<br/><br/>
         <%}%>
-        <br/>
+        
        
         <%--
             Muestro los proyectos que lidera, en el caso de que lidere alguno
         --%>
-        <% if(lidera!=null){ %>
+        <% if(lidera != null && !lidera.isEmpty()){ %>
             <table border="1">
             <tr>
                 <th><b>Lidera</b></th>
@@ -69,19 +69,20 @@
                 </td>
             </tr>   
             <%}%>
-            </table>
+            </table><br/>
         <%}else{%>
-        No lidera ning&uacute;n proyecto
+        No lidera ning&uacute;n proyecto<br/><br/>
         <%}%>
-        <br/>
+        
         <%--
             Muestro los comentarios realizados por el usuario
         --%>
+        <% if (comentarios != null && !comentarios.isEmpty()) {%>
         <table>
          <tr>
             <th><b>Comentarios realizados</b></th>
         </tr>
-        <% if (comentarios!=null) {%>
+       
         <% for(Comentario cm : comentarios){ %>
         <tr>
             <td>
@@ -89,11 +90,12 @@
             </td>
         </tr>
         <%}%>
-        <%} else {%> 
         </table>
+        <%} else {%>
         El usuario aun no ha comentado.
         <%}%>
         </br></br>
-        <a href="principal.jsp">Volver a principal</a>
+        <a href="RedireccionAPrincipalServlet?id=<%= user.getNickname() %>">Volver a principal</a>
+        <%--<a href="loginServlet?usuario=<%= user.getNickname() %>&password=<%= user.getPassword() %>">Volver a principal</a>--%>
     </body>
 </html>
