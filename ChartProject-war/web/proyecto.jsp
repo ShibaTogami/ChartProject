@@ -131,6 +131,9 @@
                         tareas.get(i).getEstado()
 
                     %>
+                    <br/>
+                    <button><a href="EliminarTareaServlet?tareaId=<%=tareas.get(i).getTareaPK().getIdTarea()%>&proyectoId=<%=tareas.get(i).getTareaPK().getIdProyecto()%>">Eliminar</a></button>
+                       <button><a href="CrearTareaServlet?idTarea=<%=tareas.get(i).getTareaPK().getIdTarea()%>&idProyecto=<%=tareas.get(i).getTareaPK().getIdProyecto()%>">Editar</a></button>
 
                 </td>
 

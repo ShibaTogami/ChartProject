@@ -48,22 +48,27 @@ public class EliminarTareaServlet extends HttpServlet {
             throws ServletException, IOException {
         String tareaId = request.getParameter("tareaId");
         String proyectoId = request.getParameter("proyectoId");
-        TareaPK tareaPK = new TareaPK(new BigInteger(tareaId), new BigInteger(proyectoId));
+        TareaPK tareaPK = new TareaPK();
+        tareaPK.setIdProyecto(new BigInteger(proyectoId));
+        tareaPK.setIdTarea(new BigInteger(tareaId));
 
         Tarea tarea = this.tareaFacade.find(tareaPK);
 
         this.tareaFacade.remove(tarea);
 
         List<Comentario> listaComentarios = this.comentarioFacade.findAll();
-
-        for (Comentario c : listaComentarios) {
-            if (c.getTarea().equals(tarea)) {
-                this.comentarioFacade.remove(c);
+        try{
+            for (Comentario c : listaComentarios) {
+                if (c.getTarea().equals(tarea)) {
+                    this.comentarioFacade.remove(c);
+                }
             }
         }
-
+        catch(RuntimeException e){
+            
+        }
         RequestDispatcher rd;
-        rd = this.getServletContext().getRequestDispatcher("/ProyectoServlet?id=" + proyectoId);
+        rd = this.getServletContext().getRequestDispatcher("/proyectoServlet?id=" + proyectoId);
         rd.forward(request, response);
     }
 
