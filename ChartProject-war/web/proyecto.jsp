@@ -146,9 +146,9 @@
         Timeline:<br/>
         en proceso<br/>
         <br/>
-        <a href="CrearTareaServlet?idProyecto=<%=proyecto.getIdProyecto().toString()%>">añadir tarea</a>
+        <button><a href="CrearTareaServlet?idProyecto=<%=proyecto.getIdProyecto().toString()%>">añadir tarea</a></button>
         <button><a href="cargaPersonas">añadir persona</a></button>
-        <a href="nuevoComentario.jsp">añadir comentario</a>
+        <button><a href="nuevoComentario.jsp">añadir comentario</a></button>
 
     </body>
 </html>

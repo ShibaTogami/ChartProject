@@ -103,6 +103,6 @@
             Descripción: <textarea name="descripcion" rows="10" cols="30">Introduzca una descripci&oacute;n de la tarea</textarea> </br>
             <button>Guardar</button> </t>
     </form>
-    <a href="proyectoServlet?idProyecto=<%=idProyecto%>">Cancelar</a>
+                <button><a href="proyectoServlet?idProyecto=<%=idProyecto%>">Cancelar</a></button>
 </body>
 </html>
