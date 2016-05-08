@@ -30,6 +30,8 @@ public class addPersonaServlet extends HttpServlet {
 
     @EJB
     private ProyectoFacade proyectoFacade;
+    @EJB
+    UsuarioFacade usuarioFacade;
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -49,6 +51,7 @@ public class addPersonaServlet extends HttpServlet {
         for(Usuario u : selected){
             proyecto.getUsuarioCollection().add(u);
             u.getProyectoCollection().add(proyecto);
+            usuarioFacade.edit(u);
         }
         proyectoFacade.edit(proyecto);
         RequestDispatcher rd;
