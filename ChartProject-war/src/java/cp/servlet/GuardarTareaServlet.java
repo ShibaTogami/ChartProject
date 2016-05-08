@@ -65,6 +65,8 @@ public class GuardarTareaServlet extends HttpServlet {
 
         if ("".equals(tareaId) || tareaId == null) {
             tarea = new Tarea();
+            tarea.setTareaPK(new TareaPK());
+            tarea.getTareaPK().setIdProyecto(proyecto.getIdProyecto().toBigInteger());
             tarea.setFechaInicio(new Date());
             tarea.setProyecto(proyecto);
         } else {

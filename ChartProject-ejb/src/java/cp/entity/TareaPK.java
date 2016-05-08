@@ -24,8 +24,8 @@ public class TareaPK implements Serializable {
 
     @Basic(optional = false)
     @NotNull
-    @GeneratedValue(strategy=GenerationType.SEQUENCE, generator = "secuencia_post")
-    @SequenceGenerator(name="secuencia_post", sequenceName = "SEQ_POST", allocationSize=1)
+    @GeneratedValue(strategy=GenerationType.SEQUENCE, generator = "secuencia_tarea")
+    @SequenceGenerator(name="secuencia_tarea", sequenceName = "SEQ_TAR", allocationSize=1)
     @Column(name = "ID_TAREA")
     private BigInteger idTarea;
     @Basic(optional = false)

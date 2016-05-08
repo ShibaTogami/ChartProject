@@ -120,11 +120,15 @@
 
                 <td>
 
-                    <%                        tareas.get(i).getNombre();
+                    <%=                       tareas.get(i).getNombre()
                     %>
                     <br/>
-                    <%
-                        tareas.get(i).getEstado();
+                    <%= tareas.get(i).getDescripcion()
+                        
+                        %>
+                    <br/>
+                    <%=
+                        tareas.get(i).getEstado()
 
                     %>
 
