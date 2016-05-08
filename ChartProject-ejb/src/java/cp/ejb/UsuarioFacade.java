@@ -8,6 +8,7 @@ package cp.ejb;
 import cp.entity.Usuario;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
+import javax.persistence.NoResultException;
 import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
 
@@ -30,9 +31,17 @@ public class UsuarioFacade extends AbstractFacade<Usuario> {
         super(Usuario.class);
     }
      public Usuario getUsuarioPorNickname(String usuario) {
+        Usuario salida=null;
         Query q = em.createNamedQuery("Usuario.findByNickname");
         q.setParameter("nickname", usuario);
-        
-        return (Usuario)q.getSingleResult();
+        try
+        {
+            salida = (Usuario)q.getSingleResult();
+        } catch (NoResultException excepcion)
+        {
+            salida=null;
+        }
+                
+        return salida;
     }
 }
