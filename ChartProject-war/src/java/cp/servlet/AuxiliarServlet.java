@@ -48,8 +48,8 @@ public class AuxiliarServlet extends HttpServlet {
                 request.setAttribute("fechaInicioProyecto", request.getParameter("fechaInicioProyecto"));
                 request.setAttribute("descripcionProyecto", request.getParameter("descripcionProyecto"));
                 List<Usuario> participantes = new ArrayList<Usuario>();
-                if (request.getAttribute("participantes") != null) {
-                    participantes = (List<Usuario>) request.getAttribute("participantes");
+                if (session.getAttribute("participantes") != null) {
+                    participantes = (List<Usuario>) session.getAttribute("participantes");
                 }
                 //Sacamos el usuario de la BD y lo insertamos (si existe) en la lista de participantes (y en la BD)
                 if (request.getParameter("nuevoParticipanteProyecto") != null) {
