@@ -5,8 +5,10 @@
  */
 package cp.servlet;
 
+import cp.ejb.ComentarioFacade;
 import cp.ejb.ProyectoFacade;
 import cp.ejb.UsuarioFacade;
+import cp.entity.Comentario;
 import cp.entity.Proyecto;
 import cp.entity.Usuario;
 import java.io.IOException;
@@ -15,6 +17,7 @@ import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Date;
+import java.util.List;
 import java.util.StringTokenizer;
 import javax.ejb.EJB;
 import javax.servlet.RequestDispatcher;
@@ -37,7 +40,9 @@ public class NuevoProyectoServlet extends HttpServlet {
 
     @EJB
     private ProyectoFacade proyectoFacade;
-
+    
+    @EJB
+    ComentarioFacade comentarioFacade;
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
      * methods.
@@ -72,17 +77,16 @@ public class NuevoProyectoServlet extends HttpServlet {
             }
             
             this.proyectoFacade.create(proyecto);
-            request.setAttribute("idProyecto", id);
             
             
             
-            Usuario usuario = (Usuario) session.getAttribute("usuario");
+            
             
             Collection<Usuario> participantes = proyecto.getUsuarioCollection();
             if(participantes == null) {
                 participantes = new ArrayList<Usuario>();
             }
-            
+            Usuario usuario = (Usuario) session.getAttribute("usuario");
             
             participantes.add(usuario);
             proyecto.setUsuarioCollection(participantes);
@@ -98,6 +102,23 @@ public class NuevoProyectoServlet extends HttpServlet {
             liderando.add(proyecto);
             usuario.setProyectoCollection1(liderando);
             usuarioFacade.edit(usuario);
+            Comentario comment = new Comentario();
+            comment.setIdProyecto1(proyecto);
+            comment.setNickname(usuario);
+            String str = "El usuario " + usuario.getNickname() + " creó el proyecto";
+            comment.setTexto(str);
+            comentarioFacade.create(comment);
+            List<Comentario> aux;
+            if( proyecto.getComentarioCollection1() != null){
+                aux =(List<Comentario>) proyecto.getComentarioCollection1();
+            aux.add(comment);
+            }
+            else{
+                aux = new ArrayList<Comentario>();
+                aux.add(comment);
+            }
+            proyecto.setComentarioCollection1(aux);
+            session.setAttribute("comentarios2", aux);
             session.setAttribute("participantes", null); //Lo borramos para los siguientes proyectos.
             
             RequestDispatcher rd;
