@@ -38,10 +38,10 @@ public class RedireccionAPrincipalServlet extends HttpServlet {
      */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-
-        if(request.getParameter("id") != null){
-            HttpSession sesion = request.getSession();
         
+        HttpSession sesion = request.getSession();
+
+        if(request.getParameter("id") != null && sesion.getAttribute("usuario") != null){
             String usuario = request.getParameter("id");
             Usuario user = usuarioFacade.getUsuarioPorNickname(usuario);
             sesion.setAttribute("usuario", user);
