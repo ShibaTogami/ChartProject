@@ -36,23 +36,28 @@
         <%--
             Muestro los proyectos en los que está involucrado
         --%>
+        <% if(proyectos!=null){ %> <%--comprobmaos que la coleccion no es nula--%>
         <table border="1">
         <tr>
             <th><b>Proyectos</b></th>
         </tr>
-        <% for(Proyecto pr : proyectos){ %>
-        <tr>
-            <td>
-                <a href="proyectoServlet?idProyecto=<%= pr.getIdProyecto() %>"><%= pr.getNombre() %></a>
-            </td>
-        </tr>
-        <%}%>
+            <% for(Proyecto pr : proyectos){ %>
+            <tr>
+                <td>
+                    <a href="proyectoServlet?idProyecto=<%= pr.getIdProyecto() %>"><%= pr.getNombre() %></a>
+                </td>
+            </tr>
+            <%}%>
          </table><br/>
-                
+        <%}else{%>
+        No lidera participa en ning&uacute;n proyecto
+        <%}%>
+        <br/>
+       
         <%--
             Muestro los proyectos que lidera, en el caso de que lidere alguno
         --%>
-        <% if(!lidera.isEmpty()){ %>
+        <% if(lidera!=null){ %>
             <table border="1">
             <tr>
                 <th><b>Lidera</b></th>
@@ -66,7 +71,7 @@
             <%}%>
             </table>
         <%}else{%>
-            No lidera ningún proyecto
+        No lidera ning&uacute;n proyecto
         <%}%>
         <br/>
         <%--
@@ -76,6 +81,7 @@
          <tr>
             <th><b>Comentarios realizados</b></th>
         </tr>
+        <% if (comentarios!=null) {%>
         <% for(Comentario cm : comentarios){ %>
         <tr>
             <td>
@@ -83,10 +89,8 @@
             </td>
         </tr>
         <%}%>
+        <%} else {%> 
         </table>
-        <%            
-            if(comentarios.isEmpty()){
-        %>
         El usuario aun no ha comentado.
         <%}%>
         </br></br>
