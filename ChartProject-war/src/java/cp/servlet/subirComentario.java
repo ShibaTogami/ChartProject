@@ -13,6 +13,8 @@ import cp.entity.Usuario;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.math.BigDecimal;
+import java.util.Collection;
+import java.util.List;
 import javax.ejb.EJB;
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
@@ -53,11 +55,15 @@ public class subirComentario extends HttpServlet {
         comment.setNickname(user);
         comment.setTexto(comentario);
         comentarioFacade.create(comment);
-        proyecto.getComentarioCollection().add(comment);
-        BigDecimal id = proyecto.getIdProyecto();
+        List<Comentario> aux =(List<Comentario>) proyecto.getComentarioCollection();
+        aux.add(comment);
+        proyecto.setComentarioCollection(aux);
+        sesion.setAttribute("Proyecto", proyecto);
+        request.setAttribute("comentarios", proyecto.getComentarioCollection());
+
         
         RequestDispatcher rd;
-        rd = this.getServletContext().getRequestDispatcher("/proyectoServlet?idProyecto="+ id);
+        rd = this.getServletContext().getRequestDispatcher("/proyecto.jsp");
         rd.forward(request,response);
     } 
 

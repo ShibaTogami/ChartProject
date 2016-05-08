@@ -43,6 +43,7 @@ public class ProyectoServlet extends HttpServlet {
         BigDecimal id;
         
         if (request.getParameter("idProyecto") != null) {
+                      
             id = BigDecimal.valueOf(Long.parseLong(request.getParameter("idProyecto")));
             Proyecto proyecto = proyectoFacade.findByIdProyecto(id);
             

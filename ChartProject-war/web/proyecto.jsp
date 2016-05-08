@@ -4,6 +4,7 @@
     Author     : nacho
 --%>
 
+<%@page import="java.text.SimpleDateFormat"%>
 <%@page import="cp.entity.Tarea"%>
 <%@page import="cp.entity.Comentario"%>
 <%@page import="java.util.Collection"%>
@@ -22,10 +23,11 @@
         <%
 
             Proyecto proyecto = (Proyecto) session.getAttribute("Proyecto");
+            SimpleDateFormat formato = new SimpleDateFormat("dd/MM/yyyy");
 
         %>
         <h1>Proyecto: <%= proyecto.getNombre()%></h1><br/>
-        Fecha de inicio: <% proyecto.getFechaInicio().toString().substring(0, 9); %><br/>
+        Fecha de inicio: <%= formato.format(proyecto.getFechaInicio())%><br/>
         Participantes:<br/>
         <table>
             <%
@@ -65,15 +67,19 @@
         <%= proyecto.getDescripcion() %><br/>
         Comentarios:<br/>
         <%
+            List<Comentario> comentarios;
+            if((List<Comentario>) request.getAttribute("comentarios")!= null){
+               comentarios = (List<Comentario>) request.getAttribute("comentarios");
+            }
+            else{
+               comentarios = (List<Comentario>) proyecto.getComentarioCollection();
+            }
 
-            List<Comentario> comentarios = (List<Comentario>) proyecto.getComentarioCollection();
-            int tam = comentarios.size();
-            int comment = 0;
 
         %>
         <table>
-            <%                while(comment < tam) {
-                try{
+            <%                for(Comentario c : comentarios){
+
 
             %>
 
@@ -81,31 +87,24 @@
 
                 <td>
 
-                    <%=                       comentarios.get(comment).getNickname().getNickname()
+                    <%=                       c.getNickname().getNickname()
                     %>
                     <br/>
                     <%=
-                        comentarios.get(comment).getTexto()
+                        c.getTexto()
                     %>
 
                 </td>
 
             </tr>
 
-            <%                comment++; }
-                            catch(RuntimeException e){
-                            break;
-                        }
+                             
+                      <%      
                         }
             %>
 
         </table><br/>
 
-        <h5>introduzca un comentario nuevo:</h5><br/>
-        <form name="comentario" action="subirComentario" method="post">
-            <textarea name="comment" rows="10" cols="30"></textarea>
-            <input type="submit" value="enviar">
-        </form>
         
         Tareas:<br/>
         <%
@@ -142,6 +141,7 @@
         <br/>
         <button><a href="ServletPrueba">añadir tarea</a></button>
         <button><a href="cargaPersonas">añadir persona</a></button>
+        <button><a href="nuevoComentario.jsp">añadir comentario</a></button>
 
     </body>
 </html>
