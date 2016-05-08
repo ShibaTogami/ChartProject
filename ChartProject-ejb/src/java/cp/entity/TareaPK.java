@@ -10,6 +10,9 @@ import java.math.BigInteger;
 import javax.persistence.Basic;
 import javax.persistence.Column;
 import javax.persistence.Embeddable;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.SequenceGenerator;
 import javax.validation.constraints.NotNull;
 
 /**
@@ -21,6 +24,8 @@ public class TareaPK implements Serializable {
 
     @Basic(optional = false)
     @NotNull
+    @GeneratedValue(strategy=GenerationType.SEQUENCE, generator = "secuencia_post")
+    @SequenceGenerator(name="secuencia_post", sequenceName = "SEQ_POST", allocationSize=1)
     @Column(name = "ID_TAREA")
     private BigInteger idTarea;
     @Basic(optional = false)

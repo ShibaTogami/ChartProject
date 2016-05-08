@@ -5,14 +5,17 @@
  */
 package cp.servlet;
 
+import cp.ejb.ProyectoFacade;
 import cp.entity.Tarea;
 import cp.entity.TareaPK;
 import cp.ejb.TareaFacade;
+import cp.entity.Proyecto;
 import cp.entity.Tarea;
 import cp.entity.TareaPK_;
 import cp.entity.Usuario;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.math.BigDecimal;
 import java.math.BigInteger;
 import java.util.Date;
 import javax.ejb.EJB;
@@ -22,6 +25,7 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 /**
  *
@@ -29,9 +33,11 @@ import javax.servlet.http.HttpServletResponse;
  */
 @WebServlet(name = "GuardarTareaServlet", urlPatterns = {"/GuardarTareaServlet"})
 public class GuardarTareaServlet extends HttpServlet {
+
     @EJB
     TareaFacade tareaFacade;
-    
+    @EJB
+    ProyectoFacade proyectoFacade;
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -44,39 +50,47 @@ public class GuardarTareaServlet extends HttpServlet {
      */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
+        HttpSession sesion = request.getSession();
+        Usuario usuario = (Usuario) sesion.getAttribute("usuario");
+
         String tareaId, proyectoId;
         Tarea tarea;
+
+        proyectoId = request.getParameter("idProyecto");
+        tareaId = request.getParameter("idTarea");
         
-        proyectoId = request.getParameter("proyectoId");
-        tareaId = request.getParameter("tareaId");
-        Usuario usuario = (Usuario) request.getAttribute("usuario");
+        BigDecimal idProyecto = new BigDecimal(proyectoId);
         
-        if("".equals(tareaId)){
+        Proyecto proyecto = this.proyectoFacade.find(idProyecto);
+
+        if ("".equals(tareaId) || tareaId == null) {
             tarea = new Tarea();
-            
             tarea.setFechaInicio(new Date());
-        }else{
-            tarea = tareaFacade.find(new TareaPK(new BigInteger(tareaId), new BigInteger(proyectoId)));
+            tarea.setProyecto(proyecto);
+        } else {
+            BigDecimal idTarea = new BigDecimal(tareaId);
+            tarea = tareaFacade.find(new TareaPK(idTarea.toBigInteger(), idProyecto.toBigInteger()));
         }
-        
+
         tarea.setNombre(request.getParameter("nombre"));
         tarea.setDescripcion(request.getParameter("descripcion"));
         tarea.setEstado(request.getParameter("estado"));
         tarea.setPrioridad(new BigInteger(request.getParameter("prioridad")));
-        
-        if("".equals(tareaId)){
+
+        if ("".equals(tareaId)|| tareaId == null) {
             this.tareaFacade.create(tarea);
-            String str = "El usuario "+usuario.getNickname() + " ha creado la tarea " + tarea.getNombre();
-        }else{
+            String str = "El usuario " + usuario.getNickname() + " ha creado la tarea " + tarea.getNombre();
+            request.setAttribute("strTarea", str);
+        } else {
             this.tareaFacade.edit(tarea);
             String str = "El usuario " + usuario.getNickname() + " ha actualizado la tarea " + tarea.getNombre();
             request.setAttribute("strTarea", str);
         }
-        
+
         request.setAttribute("tarea", tarea);
-        
+
         RequestDispatcher rd;
-        rd = this.getServletContext().getRequestDispatcher("/");
+        rd = this.getServletContext().getRequestDispatcher("/ProyectoServlet?idProyecto="+proyectoId);
         rd.forward(request, response);
     }
 

@@ -23,7 +23,7 @@ import javax.servlet.http.HttpServletResponse;
  *
  * @author rocio
  */
-@WebServlet(name = "ServletPrueba", urlPatterns = {"/ServletPrueba"})
+@WebServlet(name = "CrearTareaServlet", urlPatterns = {"/CrearTareaServlet"})
 public class CrearTareaServlet extends HttpServlet {
 
     @EJB
@@ -48,7 +48,7 @@ public class CrearTareaServlet extends HttpServlet {
         }
 
         RequestDispatcher rd;
-        rd = this.getServletContext().getRequestDispatcher("/edicionCliente.jsp");
+        rd = this.getServletContext().getRequestDispatcher("/nuevaTarea.jsp");
         rd.forward(request, response);
     }
 
