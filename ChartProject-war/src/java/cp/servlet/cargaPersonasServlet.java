@@ -6,6 +6,7 @@
 package cp.servlet;
 
 import cp.ejb.UsuarioFacade;
+import cp.entity.Proyecto;
 import cp.entity.Usuario;
 import java.io.IOException;
 import java.io.PrintWriter;
@@ -42,6 +43,8 @@ public class cargaPersonasServlet extends HttpServlet {
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         HttpSession sesion = request.getSession();
+        
+        
         List<Usuario> usuarios = usuarioFacade.findAll();
         List<Usuario> selected = new ArrayList<Usuario>();
         sesion.setAttribute("usuarios",usuarios);
@@ -50,6 +53,7 @@ public class cargaPersonasServlet extends HttpServlet {
         RequestDispatcher rd;
         rd = this.getServletContext().getRequestDispatcher("/addPersona.jsp");
         rd.forward(request, response);
+        
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">

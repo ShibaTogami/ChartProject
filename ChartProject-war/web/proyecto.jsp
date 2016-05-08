@@ -181,7 +181,14 @@
         </table>
         <br/>
         <button><a href="CrearTareaServlet?idProyecto=<%=proyecto.getIdProyecto().toString()%>">añadir tarea</a></button>
+        <%
+            if(proyecto.getLider().equals(session.getAttribute("usuario"))){
+        %>
         <button><a href="cargaPersonas">añadir persona</a></button>
+        <%
+            }
+        %>
+            
         <button><a href="nuevoComentario.jsp">añadir comentario</a></button>
         <button><a href="principal.jsp">Volver</a></button>
 
