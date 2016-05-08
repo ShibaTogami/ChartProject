@@ -80,7 +80,7 @@ public class EliminarTareaServlet extends HttpServlet {
         sesion.setAttribute("Proyecto", p);
 
         RequestDispatcher rd;
-        rd = this.getServletContext().getRequestDispatcher("/proyecto.jsp");
+        rd = this.getServletContext().getRequestDispatcher("/proyectoServlet?id=" + proyectoId);
         rd.forward(request, response);
     }
 

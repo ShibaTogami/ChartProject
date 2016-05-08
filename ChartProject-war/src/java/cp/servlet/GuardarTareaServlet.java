@@ -55,6 +55,7 @@ public class GuardarTareaServlet extends HttpServlet {
         HttpSession sesion = request.getSession();
         Usuario usuario = (Usuario) sesion.getAttribute("usuario");
         Proyecto p = (Proyecto) sesion.getAttribute("Proyecto");
+        Tarea t = (Tarea) sesion.getAttribute("tarea");
 
         String tareaId, proyectoId;
         Tarea tarea;
@@ -81,6 +82,8 @@ public class GuardarTareaServlet extends HttpServlet {
         tarea.setDescripcion(request.getParameter("descripcion"));
         tarea.setEstado(request.getParameter("estado"));
         tarea.setPrioridad(new BigInteger(request.getParameter("prioridad")));
+        
+        Collection<Tarea> coleccionProyecto = p.getTareaCollection();
 
         if ("".equals(tareaId)|| tareaId == null) {
             this.tareaFacade.create(tarea);
@@ -90,9 +93,10 @@ public class GuardarTareaServlet extends HttpServlet {
             this.tareaFacade.edit(tarea);
             String str = "El usuario " + usuario.getNickname() + " ha actualizado la tarea " + tarea.getNombre();
             request.setAttribute("strTarea", str);
+            coleccionProyecto.remove(t);
         }
         
-        Collection<Tarea> coleccionProyecto = p.getTareaCollection();
+        
         coleccionProyecto.add(tarea);
         p.setTareaCollection(coleccionProyecto);
         sesion.setAttribute("Proyecto", p);

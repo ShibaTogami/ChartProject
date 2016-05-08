@@ -31,6 +31,7 @@
                 prioridad = tarea.getPrioridad().toString();
             }
             String selected = "";
+            session.setAttribute("tarea", tarea);
         %>
         <h1>Crear/Editar tarea</h1>
         <form method="post" action="GuardarTareaServlet">
@@ -52,9 +53,12 @@
                 <option value="To Do" <%=selected%>>To Do</option>
                 <% if (estado.equalsIgnoreCase(
                             "In Process")) {
-                        selected = "selected";%>
+                        selected = "selected";
+                    } else {
+                        selected = "";
+                    }%>
                 <option value="In Process" <%=selected%>>In Process</option>
-                <%}%>
+
                 <% if (estado.equalsIgnoreCase(
                             "Done")) {
                         selected = "selected";

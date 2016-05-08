@@ -32,7 +32,7 @@
         <a href="nuevoProyecto.jsp">Crear un nuevo proyecto</a>
             <h1>Tus proyectos actuales</h1>
             <%
-                int i = 0;
+                int i = 1;
                 for (Proyecto proyecto: proyectos) {
                     %>
                     <a href="proyectoServlet?idProyecto=<%=proyecto.getIdProyecto()%>"><%=proyecto.getNombre()%> </a>
