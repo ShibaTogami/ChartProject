@@ -43,33 +43,39 @@ public class loginServlet extends HttpServlet {
         HttpSession sesion = request.getSession();
         RequestDispatcher rd = null;
         boolean caracteres = true;
-
         
         //comprobaremos si el password tiene caracteres que podria crear problemas
         //de seguridad
         for (char aux : password.toCharArray()) {
-            if (aux == '\'' || aux == '"' || aux == '+' || aux == '-' || aux == '*' || aux == '/') {
+            if (aux == '\'' || aux == '"' || aux == '+' || aux == '-' || aux == '*' || aux == '/' || aux == '%') {
                 caracteres = false;
             }
         }
 
         if (!caracteres) //si hay caracteres maliciosos
         {
-            sesion.setAttribute("retorno", "true");
+            sesion.setAttribute("retorno", "caracteres");
             rd = this.getServletContext().getRequestDispatcher("/index.jsp");
         } else //consultamos el pass
         {
             Usuario user = usuarioFacade.getUsuarioPorNickname(usuario);
-
-            if (!user.getPassword().equals(password)) //si no corresponden
+            
+            if (user != null) //si el usuario no existe
             {
-                sesion.setAttribute("retorno", "true");
+                if (!user.getPassword().equals(password)) //si no corresponden
+                {
+                    sesion.setAttribute("retorno", "password");
+                    rd = this.getServletContext().getRequestDispatcher("/index.jsp");
+                } else //si coinciden
+                {
+                    sesion.setAttribute("usuario", user);
+                    rd = this.getServletContext().getRequestDispatcher("/principal.jsp");
+                }
+            } else {
+                sesion.setAttribute("retorno", "usuario");
                 rd = this.getServletContext().getRequestDispatcher("/index.jsp");
-            } else //si coinciden
-            {
-                sesion.setAttribute("usuario", user);
-                rd = this.getServletContext().getRequestDispatcher("/principal.jsp");
             }
+            
         }
 
         rd.forward(request, response);

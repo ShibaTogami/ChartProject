@@ -14,11 +14,18 @@
     <body>
         <h1>Pagina principal</h1>
         <%HttpSession sesion = request.getSession();
-            boolean retorno = new Boolean((String) sesion.getAttribute("retorno"));
-            if (retorno == true) {%>
-        <h1>Contrase&ntilde;a Erronea!!</h1>
-        <%}
-        %>
+            String retorno = (String) sesion.getAttribute("retorno");
+        if (retorno!=null)
+        {
+            if (retorno.equals("caracteres")) {%>
+            <h1>Esa contrase&ntilde;a conten&iacute;a caracteres no permitidos</h1>
+            <%} else if (retorno.equals("usuario")) {%>
+            <h1>Usuario no registrado!!</h1>
+            <%} else if (retorno.equals("password")) {%>
+            <h1>Contrase&ntilde;a Erronea!!</h1>
+            <%}
+            sesion.removeAttribute("retorno");
+        }%>
         <form action="loginServlet" method="post">
             Usuario: <input type="text" size="20" name="usuario"/>
             Contrase&ntilde;a: <input type="password" size="20" name="password"/>
