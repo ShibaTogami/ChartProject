@@ -26,12 +26,27 @@
             <%}
             sesion.removeAttribute("retorno");
         }%>
+        <pre>
+  ,----..    ,---,                            ___      
+ /   /   \ ,--.' |                          ,--.'|_    
+|   :     :|  |  :                 __  ,-.  |  | :,'   
+.   |  ;. /:  :  :               ,' ,'/ /|  :  : ' :   
+.   ; /--` :  |  |,--.  ,--.--.  '  | |' |.;__,'  /    
+;   | ;    |  :  '   | /       \ |  |   ,'|  |   |     
+|   : |    |  |   /' :.--.  .-. |'  :  /  :__,'| :     
+.   | '___ '  :  | | | \__\/: . .|  | '     '  : |__  
+'   ; : .'||  |  ' | : ," .--.; |;  : |     |  | '.'| 
+'   | '/  :|  :  :_:,'/  /  ,.  ||  , ;     ;  :    ; 
+|   :    / |  | ,'   ;  :   .'   \---'      |  ,   /  
+ \   \ .'  `--''     |  ,     .-./           ---`-'   
+  `---`               `--`---'                       
+        </pre>
         <form action="loginServlet" method="post">
             Usuario: <input type="text" size="20" name="usuario"/>
             Contrase&ntilde;a: <input type="password" size="20" name="password"/>
             <input type="submit" value="Log in">
         </form>
-        <h6><a href="registro.jsp">Registro</a>    <a href="recuperarContrasena.jsp">Olvid&eacute; mi contrase&ntilde;a</a>
+        <h6><a href="registro.jsp">Registro</a>    <a href="recuperarContrasena.jsp">Olvid&eacute; mi contrase&ntilde;a</a></h6>
             <%sesion.removeAttribute("retorno");%>
     </body>
 </html>
