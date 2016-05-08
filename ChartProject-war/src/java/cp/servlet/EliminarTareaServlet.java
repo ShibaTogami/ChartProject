@@ -5,17 +5,15 @@ package cp.servlet;
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
+
 import cp.ejb.ComentarioFacade;
 import cp.ejb.TareaFacade;
 import cp.entity.Comentario;
-import cp.entity.Proyecto;
 import cp.entity.Tarea;
 import cp.entity.TareaPK;
-import cp.entity.Usuario;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.math.BigInteger;
-import java.util.Collection;
 import java.util.List;
 import javax.ejb.EJB;
 import javax.servlet.RequestDispatcher;
@@ -24,7 +22,6 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
 
 /**
  *
@@ -49,22 +46,13 @@ public class EliminarTareaServlet extends HttpServlet {
      */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        HttpSession sesion = request.getSession();
-        Usuario usuario = (Usuario) sesion.getAttribute("usuario");
-        Proyecto p = (Proyecto) sesion.getAttribute("Proyecto");
-
-        String tareaId = request.getParameter("idTarea");
-        String proyectoId = request.getParameter("idProyecto");
+        String tareaId = request.getParameter("tareaId");
+        String proyectoId = request.getParameter("proyectoId");
         TareaPK tareaPK = new TareaPK(new BigInteger(tareaId), new BigInteger(proyectoId));
 
         Tarea tarea = this.tareaFacade.find(tareaPK);
 
         this.tareaFacade.remove(tarea);
-
-        Collection<Tarea> coleccionProyecto = p.getTareaCollection();
-        coleccionProyecto.remove(tarea);
-        p.setTareaCollection(coleccionProyecto);
-        sesion.setAttribute("Proyecto", p);
 
         List<Comentario> listaComentarios = this.comentarioFacade.findAll();
 
