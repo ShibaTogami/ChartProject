@@ -6,6 +6,7 @@
 package cp.servlet;
 
 import cp.ejb.ProyectoFacade;
+import cp.ejb.UsuarioFacade;
 import cp.entity.Proyecto;
 import cp.entity.Usuario;
 import java.io.IOException;
@@ -18,12 +19,13 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 /**
  *
  * @author nacho
  */
-@WebServlet(name = "addPersonaServlet", urlPatterns = {"/addPersona"})
+@WebServlet(name = "addPersonaServlet", urlPatterns = {"/addPersonas"})
 public class addPersonaServlet extends HttpServlet {
 
     @EJB
@@ -41,15 +43,16 @@ public class addPersonaServlet extends HttpServlet {
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         
-        
-        List<Usuario> selected = (List<Usuario>)request.getAttribute("seleccion");
-        Proyecto proyecto = (Proyecto) request.getAttribute("Proyecto");
+        HttpSession sesion = request.getSession();
+        List<Usuario> selected = (List<Usuario>)sesion.getAttribute("seleccion");
+        Proyecto proyecto = (Proyecto) sesion.getAttribute("Proyecto");
         for(Usuario u : selected){
             proyecto.getUsuarioCollection().add(u);
+            u.getProyectoCollection().add(proyecto);
         }
         proyectoFacade.edit(proyecto);
         RequestDispatcher rd;
-        rd = this.getServletContext().getRequestDispatcher("/proyectoServlet");
+        rd = this.getServletContext().getRequestDispatcher("/proyectoServlet?idProyecto="+proyecto.getIdProyecto().toString());
         rd.forward(request,response);
     }
 

@@ -5,11 +5,14 @@
  */
 package cp.servlet;
 
-import cp.ejb.UsuarioFacade;
+import cp.ejb.ComentarioFacade;
+import cp.ejb.ProyectoFacade;
+import cp.entity.Comentario;
+import cp.entity.Proyecto;
 import cp.entity.Usuario;
 import java.io.IOException;
 import java.io.PrintWriter;
-import java.util.List;
+import java.math.BigDecimal;
 import javax.ejb.EJB;
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
@@ -23,12 +26,13 @@ import javax.servlet.http.HttpSession;
  *
  * @author nacho
  */
-@WebServlet(name = "addToList", urlPatterns = {"/addUserToListServlet"})
-public class addToList extends HttpServlet {
 
-    @EJB
-    private UsuarioFacade usuarioFacade;
-
+@WebServlet(name = "subirComentario", urlPatterns = {"/subirComentario"})
+public class subirComentario extends HttpServlet {
+    
+        @EJB
+        ComentarioFacade comentarioFacade;
+        ProyectoFacade proyectoFacade;
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
      * methods.
@@ -41,16 +45,21 @@ public class addToList extends HttpServlet {
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         HttpSession sesion = request.getSession();
-        List<Usuario> selected = (List<Usuario>)sesion.getAttribute("seleccion");
-        String nombre = (String) request.getParameter("nombre");
-        selected.add(usuarioFacade.getUsuarioPorNickname(nombre));
-        sesion.setAttribute("seleccion", selected);
+        Usuario user = (Usuario) sesion.getAttribute("usuario");
+        Proyecto proyecto = (Proyecto) sesion.getAttribute("Proyecto");
+        String comentario = (String) request.getParameter("comment");
+        Comentario comment = new Comentario();
+        comment.setIdProyecto2(proyecto);
+        comment.setNickname(user);
+        comment.setTexto(comentario);
+        comentarioFacade.create(comment);
+        proyecto.getComentarioCollection().add(comment);
+        BigDecimal id = proyecto.getIdProyecto();
+        
         RequestDispatcher rd;
-        rd = this.getServletContext().getRequestDispatcher("/addPersona.jsp");
+        rd = this.getServletContext().getRequestDispatcher("/proyectoServlet?idProyecto="+ id);
         rd.forward(request,response);
-        
-        
-    }
+    } 
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
     /**

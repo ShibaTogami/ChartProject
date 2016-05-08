@@ -18,6 +18,7 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 /**
  *
@@ -40,11 +41,11 @@ public class cargaPersonasServlet extends HttpServlet {
      */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        
+        HttpSession sesion = request.getSession();
         List<Usuario> usuarios = usuarioFacade.findAll();
         List<Usuario> selected = new ArrayList<Usuario>();
-        request.setAttribute("usuarios",usuarios);
-        request.setAttribute("seleccion", selected);
+        sesion.setAttribute("usuarios",usuarios);
+        sesion.setAttribute("seleccion", selected);
         
         RequestDispatcher rd;
         rd = this.getServletContext().getRequestDispatcher("/addPersona.jsp");

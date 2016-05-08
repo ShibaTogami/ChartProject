@@ -16,6 +16,7 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 /**
  *
@@ -38,14 +39,14 @@ public class ProyectoServlet extends HttpServlet {
      */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-
+        HttpSession sesion = request.getSession();
         BigDecimal id;
         
         if (request.getParameter("idProyecto") != null) {
             id = BigDecimal.valueOf(Long.parseLong(request.getParameter("idProyecto")));
             Proyecto proyecto = proyectoFacade.findByIdProyecto(id);
             
-            request.setAttribute("Proyecto", proyecto);
+            sesion.setAttribute("Proyecto", proyecto);
             
             RequestDispatcher rd = getServletContext().getRequestDispatcher("/proyecto.jsp");
             rd.forward(request, response);

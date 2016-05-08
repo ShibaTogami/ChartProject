@@ -21,7 +21,7 @@
     <body>
         <%
 
-            Proyecto proyecto = (Proyecto) request.getAttribute("Proyecto");
+            Proyecto proyecto = (Proyecto) session.getAttribute("Proyecto");
 
         %>
         <h1>Proyecto: <%= proyecto.getNombre()%></h1><br/>
@@ -31,19 +31,28 @@
             <%
                 List<Usuario> usuarios = (List<Usuario>) proyecto.getUsuarioCollection();
                 int tsize = usuarios.size();
-                for (int i = 0; i < tsize / 6 + 1; i++) {
+                int users = 0;
+                while (users < tsize) {
+
             %>
 
             <tr>
 
-                <%
-                    for (int j = 0; j < 6; j++) {
+                <%                    for (int i = 0; i < 6; i++) {
+                        try {
+
                 %>
-                <td><%= usuarios.get(i).getNickname()%></td>
-                    <%
+                <td><%= usuarios.get(users).getNickname()%></td>
+                <%
+                            users++;
+                        } catch (RuntimeException e) {
+                            users = tsize;
+                            break;
                         }
 
-                    %>
+                    }
+
+                %>
 
             </tr>
 
@@ -53,15 +62,18 @@
         </table><br/>
 
         Descripcion:<br/>
-        <% proyecto.getDescripcion(); %><br/>
+        <%= proyecto.getDescripcion() %><br/>
         Comentarios:<br/>
         <%
 
             List<Comentario> comentarios = (List<Comentario>) proyecto.getComentarioCollection();
+            int tam = comentarios.size();
+            int comment = 0;
 
         %>
         <table>
-            <%                for (int i = 0; i < comentarios.size(); i++) {
+            <%                while(comment < tam) {
+                try{
 
             %>
 
@@ -69,22 +81,32 @@
 
                 <td>
 
-                    <%                        comentarios.get(i).getNickname().getNickname();
+                    <%=                       comentarios.get(comment).getNickname().getNickname()
                     %>
                     <br/>
-                    <%
-                        comentarios.get(i).getTexto();
+                    <%=
+                        comentarios.get(comment).getTexto()
                     %>
 
                 </td>
 
             </tr>
 
-            <%                }
+            <%                comment++; }
+                            catch(RuntimeException e){
+                            break;
+                        }
+                        }
             %>
 
         </table><br/>
 
+        <h5>introduzca un comentario nuevo:</h5><br/>
+        <form name="comentario" action="subirComentario" method="post">
+            <textarea name="comment" rows="10" cols="30"></textarea>
+            <input type="submit" value="enviar">
+        </form>
+        
         Tareas:<br/>
         <%
             List<Tarea> tareas = (List<Tarea>) proyecto.getTareaCollection();
@@ -114,12 +136,12 @@
             <%                }
             %>
         </table><br/>
-        
+
         Timeline:<br/>
         en proceso<br/>
-       <br/>
-       <button><a href="ServletPrueba">añadir tarea</a></button>
-       <button><a href="cargaPersonas">añadir persona</a></button>
+        <br/>
+        <button><a href="ServletPrueba">añadir tarea</a></button>
+        <button><a href="cargaPersonas">añadir persona</a></button>
 
     </body>
 </html>

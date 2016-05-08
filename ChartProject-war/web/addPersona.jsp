@@ -18,8 +18,8 @@
         <table>
             <%
 
-                List<Usuario> usuarios = (List<Usuario>) request.getAttribute("usuarios");
-                List<Usuario> selected = (List<Usuario>) request.getAttribute("seleccion");
+                List<Usuario> usuarios = (List<Usuario>) session.getAttribute("usuarios");
+                List<Usuario> selected = (List<Usuario>) session.getAttribute("seleccion");
 
                 for (Usuario u : usuarios) {
 
@@ -27,7 +27,7 @@
 
             <tr>     
                 <td>
-                    <%    u.getNickname();%>
+                    <%=   u.getNickname()%>
                 </td>
                 <td>
                     <button><a href="addUserToListServlet?nombre=<%=u.getNickname()%>">añadir</a></button>
