@@ -92,7 +92,7 @@ public class GuardarTareaServlet extends HttpServlet {
         request.setAttribute("tarea", tarea);
 
         RequestDispatcher rd;
-        rd = this.getServletContext().getRequestDispatcher("/ProyectoServlet?idProyecto="+proyectoId);
+        rd = this.getServletContext().getRequestDispatcher("/proyectoServlet?idProyecto="+proyectoId);
         rd.forward(request, response);
     }
 
